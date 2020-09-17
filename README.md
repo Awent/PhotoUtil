@@ -32,7 +32,7 @@ allprojects {
 
 ```
 
-2、然后在module gradle dependencies 添加以下依赖，如果添加失败，请打开vpn后重试
+2、然后在module gradle dependencies 添加以下依赖，如有重复，请自行删除重复依赖
 
 ```
     implementation "androidx.appcompat:appcompat:1.2.0"
@@ -55,7 +55,6 @@ allprojects {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
     //解决Glide找不到Android声明库问题
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
     implementation 'com.github.Awent:PhotoUtil:v1.0'
