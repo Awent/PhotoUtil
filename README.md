@@ -14,8 +14,6 @@
 
 ![image](https://github.com/Awent/PhotoPick-Master/blob/master/pictrue/device-2017-10-25-033458.png)
 
-![tips.png](http://upload-images.jianshu.io/upload_images/304079-2344f7ec6b950a05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
 
 # 下面讲解如何导入到你的项目中
 
@@ -53,13 +51,14 @@ allprojects {
         exclude group: "com.android.support"
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //使用okhttp拦截器进行图片加载进度监听
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
     //解决Glide找不到Android声明库问题
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
     implementation 'com.github.Awent:PhotoUtil:v1.0'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 ```
 
 
@@ -179,4 +178,6 @@ new PhotoPagerConfig.Builder(this,Class<?> clazz)       //这里传入你自定�
 
 [Glide图片加载进度参考](https://juejin.im/post/6847902221951041549)
 
+### v1.0：
+implementation 'com.github.Awent:PhotoUtil:v1.0'
 
