@@ -140,7 +140,7 @@ new PhotoPagerConfig.Builder<T>(this)
     .addSingleSmallImageUrl(String smallImageUrl)       //一张一张小图add进ArrayList
     .setSaveImage(true)                                 //开启保存图片，默认false
     .setPosition(2)                                     //默认展示第2张图片
-    .setSaveImageLocalPath("Android/SD/xxx/xxx")        //这里是你想保存大图片到手机的地址,可在手机图库看到，不传会有默认地址
+    .setSaveImageLocalPath("Android/SD/xxx/xxx")        //这里是你想保存大图片到手机的地址,可在手机图库看到，不传会有默认地址，android Q会忽略此参数
     .setBundle(bundle)                                  //传递自己的数据，如果数据中包含java bean，必须实现Parcelable接口
     .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
     .setOnPhotoSaveCallback(new OnPhotoSaveCallback()   //保存网络图片到本地图库的回调,保存成功则返回本地图片路径，失败返回null
@@ -161,6 +161,46 @@ new PhotoPagerConfig.Builder(this,Class<?> clazz)       //这里传入你自定�
 ```
 参考simple中的proguard-rules文件
 
+```
+
+- 开发中常用的查看网络大图`fromList`和`fromMap`用法介绍
+
+    1、使用场景：
+    图片`url`存在于集合实体类里，例如：`Map<Integer, UserBean.User>` 或 `List<UserBean.User> userList`，
+    这时候不需要自己循环这些集合取出图片url了，本方法会提供内部循环，你只需关注你的图片`url`字段就行
+
+    2、使用示例：用户头像`avatar`存在于`User`实体类里面，是通过服务器返回来的
+
+```
+List<UserBean.User> list = getUserInfo();           //使用fromList
+or
+Map<Integer, UserBean.User> map = new HashMap<>();  //使用fromMap
+
+java写法：
+            new PhotoPagerConfig.Builder<UserBean.User>(this)
+                        .fromList(list, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
+                            @Override
+                            public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
+                                builder.addSingleBigImageUrl(item.getAvatar());
+                            }
+                        })
+                        .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {
+                            @Override
+                            public void onSaveImageResult(String localFilePath) {
+                                Toast(localFilePath != null ? "保存成功" : "保存失败");
+                            }
+                        })
+                        .build();
+                                  
+                                  
+kotlin写法：
+              list?.let {
+                PhotoPagerConfig.Builder<UserBean.User>(this)
+                        .fromList(it) { item, builder ->
+                            builder.addSingleBigImageUrl(item.avatar)//这个avatar就是你需要关注的字段，在这里设置进去即可
+                        }.build()
+              }
+                                  
 ```
 
 ### 注意事项：
