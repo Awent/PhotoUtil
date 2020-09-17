@@ -1,0 +1,6 @@
+# Project exclude paths
+/.gradle/
+/photoLibrary/build/
+/photoLibrary/build/intermediates/javac/debug/classes/
+/simaple/build/
+/simaple/build/intermediates/javac/debug/classes/

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.awen.image">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity
+            android:name="com.awen.image.photopick.ui.ClipPictureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhoAppTheme.AppTheme">
+            <intent-filter>
+                <action android:name="com.awen.photo.photopick.ui.ClipPictureActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.awen.image.photopick.ui.PhotoPagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhoAppTheme.Transparent">
+            <intent-filter>
+                <action android:name="com.awen.photo.photopick.ui.PhotoPagerActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.awen.image.photopick.ui.PhotoPickActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhoAppTheme.AppTheme">
+            <intent-filter>
+                <action android:name="com.awen.photo.photopick.ui.PhotoPickActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.awen.image.photopick.ui.PhotoPreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhoAppTheme.AppTheme">
+            <intent-filter>
+                <action android:name="com.awen.photo.photopick.ui.PhotoPreviewActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.awen.image.photopick.ui.VideoPlayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhoAppTheme.AppTheme">
+            <intent-filter>
+                <action android:name="com.awen.photo.photopick.ui.PhotoPreviewActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

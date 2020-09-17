@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.awen.image.photopick.widget.HackyViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/toolbar_layout" />
+
+    <!-- 这里多一层是为了适配有些手机的导航栏-->
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/navigationBarColor"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingLeft="@dimen/layout_padding_16dp"
+            android:paddingRight="@dimen/layout_padding_16dp">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:checked="false"
+                android:text="@string/image_size"
+                android:textColor="@android:color/white"
+                android:theme="@style/PhoCheckBox" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/selected"
+                android:textColor="@android:color/white"
+                android:theme="@style/PhoCheckBox" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.lovedise:permissiongen:0.1.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ac6a5fa39e5aea95115305275073753d/jetified-permissiongen-0.1.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ac6a5fa39e5aea95115305275073753d/jetified-permissiongen-0.1.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ac6a5fa39e5aea95115305275073753d/jetified-permissiongen-0.1.1/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lovedise/permissiongen/0.1.1/c5466248034dc9c1f14d69ea0449c68175de1e85/permissiongen-0.1.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lovedise/permissiongen/0.1.1/9cea71b7d349eaa0ae20f23fe418bba21beb43b6/permissiongen-0.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

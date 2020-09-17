@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.sothree.slidinguppanel:library:3.3.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6ab23fb51f01442e64ec97ee9760834f/jetified-library-3.3.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6ab23fb51f01442e64ec97ee9760834f/jetified-library-3.3.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6ab23fb51f01442e64ec97ee9760834f/jetified-library-3.3.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sothree.slidinguppanel/library/3.3.0/3695aa9fe2b61d8d7ba435b426234f6e13ac7fe8/library-3.3.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sothree.slidinguppanel/library/3.3.0/6b166f2637eff821b4f6c84d6c893f307f08e996/library-3.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

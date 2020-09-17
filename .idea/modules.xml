@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PhotoPick-Master.iml" filepath="$PROJECT_DIR$/.idea/modules/PhotoPick-Master.iml" group="PhotoPick-Master" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/photoLibrary/photoLibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/photoLibrary/photoLibrary.iml" group="PhotoPick-Master/photoLibrary" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simaple/simaple.iml" filepath="$PROJECT_DIR$/.idea/modules/simaple/simaple.iml" group="PhotoPick-Master/simaple" />
+    </modules>
+  </component>
+</project>

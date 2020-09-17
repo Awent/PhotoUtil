@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.Awent'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 33
+        versionName "3.3"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    //跟随viewpager的点
+    implementation 'me.relex:circleindicator:1.1.8@aar'
+    //上滑控制面板,项目中的potopick中有使用案例
+    implementation 'com.sothree.slidinguppanel:library:3.3.0'
+    //android6.0权限工具类
+    implementation 'com.lovedise:permissiongen:0.1.1'
+    //加载超长图必备库
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    implementation("com.github.bumptech.glide:glide:4.11.0") {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
+    //解决Glide找不到Android声明库问题
+    annotationProcessor 'androidx.annotation:annotation:1.1.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+}
