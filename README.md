@@ -47,9 +47,7 @@ allprojects {
     implementation 'com.lovedise:permissiongen:0.1.1'
     //加载超长图必备库
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
-    implementation("com.github.bumptech.glide:glide:4.11.0") {
-        exclude group: "com.android.support"
-    }
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //使用okhttp拦截器进行图片加载进度监听
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
@@ -57,7 +55,7 @@ allprojects {
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
-    implementation 'com.github.Awent:PhotoUtil:v1.0'
+    implementation 'com.github.Awent:PhotoUtil:v1.0.1'
 ```
 
 
@@ -217,6 +215,6 @@ kotlin写法：
 
 [Glide图片加载进度参考](https://juejin.im/post/6847902221951041549)
 
-### v1.0：
-implementation 'com.github.Awent:PhotoUtil:v1.0'
+### v1.0.1：
+implementation 'com.github.Awent:PhotoUtil:v1.0.1'
 
