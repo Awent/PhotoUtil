@@ -1,4 +1,4 @@
-package com.simaple;
+package com.simaple.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

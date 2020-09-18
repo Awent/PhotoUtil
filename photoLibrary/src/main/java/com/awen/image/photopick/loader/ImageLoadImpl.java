@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.awen.image.PhotoSetting;
 import com.awen.image.R;
 import com.awen.image.photopick.pro.ProgressInterceptor;
 import com.awen.image.photopick.pro.ProgressListener;
@@ -37,6 +38,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import java.io.File;
 
 import static android.view.View.VISIBLE;
+import static com.awen.image.PhotoSetting.DEBUG;
 
 /**
  * 图片加载
@@ -52,7 +54,6 @@ public class ImageLoadImpl implements ImageLoad {
     private static final float ratioY = 0.8f; //大于此值即表示纵向长图
 //    private static final float ratioX = 0.25f; //大于此值即表示横向长图
 //    private static final float ratioY = 1.05f; //大于此值即表示纵向长图
-    private boolean DEBUG = true;
     private Context context;
     private float screenWith, screenHeight;
     private View.OnClickListener onClickListener;

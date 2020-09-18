@@ -1,4 +1,4 @@
-package com.simaple
+package com.simaple.bean
 
 class UserBean {
     var code = 0

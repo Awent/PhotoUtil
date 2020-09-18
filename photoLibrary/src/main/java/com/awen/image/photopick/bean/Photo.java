@@ -1,16 +1,19 @@
 package com.awen.image.photopick.bean;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
- * 注意：如果是图片裁剪，这里只有{@link #path} 不为空，其他字段都是没有值的
+ * 注意：如果是图片裁剪或启动了系统拍照或视频录制的，就只有{@link #path} 不为空，其他字段都是没有值的
  * Created by Awen <Awentljs@gmail.com>
  */
-public class Photo {
+public class Photo implements Parcelable {
 
-    private int id;
-    private Uri uri;
-    private String path;
+    private int id;//android.provider._ID
+    private String uri;//图片或视频uri,可通过Uri.parse(uri)来获得URI
+    private String path;//图片或视频本地地址
     private long size;//byte 字节
     private boolean isLongPhoto;//是否是超长图
     private int width; //图片真实宽度
@@ -20,6 +23,50 @@ public class Photo {
     private long duration;//视频的时长，毫秒
 
     public Photo(){}
+
+    protected Photo(Parcel in) {
+        id = in.readInt();
+        uri = in.readString();
+        path = in.readString();
+        size = in.readLong();
+        isLongPhoto = in.readByte() != 0;
+        width = in.readInt();
+        height = in.readInt();
+        mimeType = in.readString();
+        dateAdd = in.readLong();
+        duration = in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(uri);
+        parcel.writeString(path);
+        parcel.writeLong(size);
+        parcel.writeByte((byte) (isLongPhoto ? 1 : 0));
+        parcel.writeInt(width);
+        parcel.writeInt(height);
+        parcel.writeString(mimeType);
+        parcel.writeLong(dateAdd);
+        parcel.writeLong(duration);
+    }
+
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
+        @Override
+        public Photo createFromParcel(Parcel in) {
+            return new Photo(in);
+        }
+
+        @Override
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
 
     @Override
     public boolean equals(Object o) {
@@ -37,11 +84,11 @@ public class Photo {
         return id;
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
@@ -118,7 +165,7 @@ public class Photo {
     }
 
     public boolean isVideo(){
-        return mimeType.startsWith("video");
+        return mimeType != null && mimeType.startsWith("video");
     }
 
     /**
@@ -136,4 +183,6 @@ public class Photo {
     public boolean isWebp(){
         return mimeType != null && mimeType.equals("image/webp");
     }
+
+
 }

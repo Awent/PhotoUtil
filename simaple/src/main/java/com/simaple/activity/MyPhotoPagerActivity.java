@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.LayoutRes;
 
 import com.awen.image.photopick.ui.PhotoPagerActivity;
-import com.simaple.MyPhotoBean;
+import com.simaple.bean.MyPhotoBean;
 import com.simaple.R;
 
 import java.util.ArrayList;

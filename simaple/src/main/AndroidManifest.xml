@@ -23,6 +23,7 @@
         <activity
             android:theme="@style/PhoAppTheme.Transparent"
             android:name=".activity.CustomPhotoPageActivity"/>
+        <activity android:name=".activity.SampleListActivity"/>
     </application>
 
 </manifest>

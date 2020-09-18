@@ -61,7 +61,7 @@ public class Data {
             }
             Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
             photo.setId(id);
-            photo.setUri(uri);
+            photo.setUri(uri.toString());
             photo.setPath(path);
             photo.setSize(size);
             photo.setMimeType(mimeType);
@@ -75,7 +75,7 @@ public class Data {
             if (!directories.contains(photoDirectory)) {
                 photoDirectory.setCoverPath(path);
                 photoDirectory.addPhoto(photo);
-                photoDirectory.setUri(uri);
+                photoDirectory.setUri(uri.toString());
                 photoDirectory.setDateAdded(dateAdd);
                 directories.add(photoDirectory);
             } else {
@@ -118,7 +118,7 @@ public class Data {
             }
             Uri uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
             photo.setId(id);
-            photo.setUri(uri);
+            photo.setUri(uri.toString());
             photo.setPath(path);
             photo.setSize(size);
             photo.setMimeType(mimeType);
@@ -129,7 +129,7 @@ public class Data {
 
             if (TextUtils.isEmpty(videoDir.getCoverPath())) {
                 videoDir.setCoverPath(path);
-                videoDir.setUri(uri);
+                videoDir.setUri(uri.toString());
             }
             videoDir.addPhoto(photo);
         }

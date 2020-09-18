@@ -275,7 +275,7 @@ public class PhotoPickActivity extends ImageBaseActivity {
                     setResult(Activity.RESULT_OK, intent);
 //                String s = "已选择的图片大小 = " + adapter.getSelectPhotos().size() + "\n" + adapter.getSelectPhotos().toString();
 //                Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-                    onPhotoResultBack(photos, adapter.getPhotos(), false);
+                    onPhotoResultBack(photos, adapter.getSelectPhotoList(), false);
                 }
             }
             return true;
@@ -314,18 +314,18 @@ public class PhotoPickActivity extends ImageBaseActivity {
         }
         switch (requestCode) {
             case REQUEST_CODE_CAMERA://相机拍照
-                findPhotoOrVideo(cameraUri);
+                findPhotoOrVideo(cameraUri,0);
                 break;
             case REQUEST_CODE_VIDEO://相机录视频
-                findPhotoOrVideo(cameraVideoUri);
+                findPhotoOrVideo(cameraVideoUri,1);
                 break;
             case REQUEST_CODE_SYSTEM_CLI_IMAGE://系统裁剪
                 cropBack(systemCliImagePath);
                 break;
             case REQUEST_CODE_CLIPIC://头像裁剪
                 if (data != null) {
-                    String photPath = data.getStringExtra(ClipPictureActivity.CLIPED_PHOTO_PATH);
-                    cropBack(photPath);
+                    String photoPath = data.getStringExtra(ClipPictureActivity.CLIPED_PHOTO_PATH);
+                    cropBack(photoPath);
                 } else {
                     Toast.makeText(this, R.string.unable_find_pic, Toast.LENGTH_LONG).show();
                 }
@@ -336,7 +336,7 @@ public class PhotoPickActivity extends ImageBaseActivity {
                     setResult(Activity.RESULT_OK, data);
                     ArrayList<String> photoLists = data.getStringArrayListExtra(PhotoPickConfig.EXTRA_STRING_ARRAYLIST);
                     boolean isOriginalPicture = data.getBooleanExtra(PhotoPreviewConfig.EXTRA_ORIGINAL_PIC, false);
-                    onPhotoResultBack(photoLists, adapter.getPhotos(), isOriginalPicture);
+                    onPhotoResultBack(photoLists, adapter.getSelectPhotoList(), isOriginalPicture);
                 } else {//用户按了返回键，合并用户选择的图片集合
                     adapter.notifyDataSetChanged();
                     toolbar.setTitle(adapter.getTitle());
@@ -364,7 +364,7 @@ public class PhotoPickActivity extends ImageBaseActivity {
         }
     }
 
-    private void findPhotoOrVideo(Uri uri) {
+    private void findPhotoOrVideo(Uri uri,int type) {
         String picturePath = null;
         Cursor cursor = null;
         try {
@@ -402,12 +402,16 @@ public class PhotoPickActivity extends ImageBaseActivity {
                     return;
                 }
                 adapter.startClipPic(picturePath, uri.toString());
-            } else {
+            } else {//视频录制
                 ArrayList<String> pic = new ArrayList<>(1);
                 pic.add(picturePath);
                 ArrayList<Photo> list = new ArrayList<>(1);
                 Photo photo = new Photo();
+                photo.setUri(uri.toString());
                 photo.setPath(picturePath);
+                if(type == 1) {
+                    photo.setMimeType("video/mp4");
+                }
                 list.add(photo);
                 Intent intent = new Intent();
                 intent.putStringArrayListExtra(PhotoPickConfig.EXTRA_STRING_ARRAYLIST, pic);

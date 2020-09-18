@@ -8,6 +8,8 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
+
+import com.awen.image.PhotoSetting;
 import com.awen.image.photopick.loader.ImageLoad;
 import com.awen.image.photopick.loader.ImageLoadImpl;
 import com.awen.image.photopick.widget.RoundProgressBar;
@@ -19,7 +21,6 @@ import java.lang.ref.WeakReference;
 @SuppressLint("ViewConstructor")
 public class MyPhotoView extends FrameLayout {
     private static final String TAG = "MyPhotoView";
-    private boolean DEBUG = true;
     private PhotoView photoView;
     private RoundProgressBar progressBar;
     private ImageLoadImpl imageLoad;
@@ -58,7 +59,7 @@ public class MyPhotoView extends FrameLayout {
     }
 
     private void updateProgress(int progress) {
-        if (DEBUG) {
+        if (PhotoSetting.DEBUG) {
 //            Log.e(TAG, " --progress = " + progress);
         }
         boolean isDone = progress == 100;
@@ -111,6 +112,6 @@ public class MyPhotoView extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
+        imageLoad.onDestroy();
     }
 }

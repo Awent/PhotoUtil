@@ -12,7 +12,7 @@ import java.util.List;
 public class PhotoDirectory {
 
     private String id;
-    private Uri uri;
+    private String uri;
     private String coverPath;
     private String name;
     private long dateAdded;
@@ -37,11 +37,11 @@ public class PhotoDirectory {
         return result;
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 

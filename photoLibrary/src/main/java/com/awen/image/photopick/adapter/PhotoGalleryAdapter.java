@@ -1,6 +1,7 @@
 package com.awen.image.photopick.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,7 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryAdapte
             name.setText(directory.getName());
             num.setText(context.getString(directory.isVideo() ? R.string.gallery_video_num : R.string.gallery_num,
                     String.valueOf(directory.getPhotos().size())));
-            Glide.with(context).load(directory.getUri()).error(R.color.wait_color).into(imageView);
+            Glide.with(context).load(Uri.parse(directory.getUri())).error(R.color.wait_color).into(imageView);
         }
 
         @Override

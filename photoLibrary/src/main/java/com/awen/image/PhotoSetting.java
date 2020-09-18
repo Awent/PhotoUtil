@@ -17,6 +17,7 @@ public class PhotoSetting {
     @ColorRes
     private static int toolbarBackGround;
     private static Context mContext;
+    public static boolean DEBUG;
     /**
      * 保存图片到本地的地址
      */
@@ -80,4 +81,7 @@ public class PhotoSetting {
         path = saveImageLocalPath;
     }
 
+    public static void setDEBUG(boolean DEBUG) {
+        PhotoSetting.DEBUG = DEBUG;
+    }
 }

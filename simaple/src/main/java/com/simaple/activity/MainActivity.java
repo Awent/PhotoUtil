@@ -10,19 +10,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.awen.image.PhotoUtil;
+import com.awen.image.photopick.bean.Photo;
 import com.awen.image.photopick.bean.PhotoResultBean;
 import com.awen.image.photopick.controller.PhotoPagerConfig;
 import com.awen.image.photopick.controller.PhotoPickConfig;
 import com.awen.image.photopick.controller.PhotoPreviewConfig;
 import com.awen.image.photopick.ui.PhotoPagerActivity;
 import com.simaple.ImageProvider;
-import com.simaple.MyPhotoBean;
+import com.simaple.bean.MyPhotoBean;
 import com.simaple.R;
-import com.simaple.UserBean;
+import com.simaple.bean.UserBean;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +35,6 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +49,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button8).setOnClickListener(this);
         findViewById(R.id.button9).setOnClickListener(this);
         findViewById(R.id.button10).setOnClickListener(this);
-        image =findViewById(R.id.image);
+    }
+
+    private void startAc(ArrayList<Photo> list){
+        startActivity(new Intent(MainActivity.this, SampleListActivity.class)
+                .putParcelableArrayListExtra("photos", list));
     }
 
     @Override
@@ -64,6 +67,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .showCamera(false)
                         .setToolbarBackGround(R.color.navigationBarColor)
 //                        .showGif(false)
+                        .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            @Override
+                            public void onResult(PhotoResultBean result) {
+                                startAc(result.getList());
+                            }
+                        })
                         .build();
 
                 break;
@@ -71,12 +80,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new PhotoPickConfig.Builder(this)
                         .pickModeMulti()
                         .maxPickSize(15)
+//                        .onlyVideo()
+//                        .onlyImage()
                         .showCamera(true)
                         .setOriginalPicture(true)//让用户可以选择原图
                         .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
                             @Override
                             public void onResult(PhotoResultBean result) {
                                 Log.e("MainActivity", "result = " + result.getPhotoLists().size());
+                                Log.e("MainActivity", "result photos= " + result.getList().size());
+                                startAc(result.getList());
                             }
                         })
                         .build();
@@ -88,8 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
                             @Override
                             public void onResult(PhotoResultBean result) {
-                                //因为加载的图片是放在app内的文件夹，所以不会存在说BitmapFactory.decodeFile不可用的问题
-                                image.setImageBitmap(BitmapFactory.decodeFile(result.getPhotoLists().get(0)));
+                                startAc(result.getList());
                             }
                         })
                         .build();
@@ -178,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button9://跳到自定义的PhotoPagerActivity(kotlin写法)
                 Bundle mBundle = new Bundle();
-                mBundle.putLong("user_id",100000L);
+                mBundle.putLong("user_id", 100000L);
                 new PhotoPagerConfig.Builder<String>(this, CustomPhotoPageActivity.class)
                         .setBigImageUrls(ImageProvider.getImageUrls())
                         .setSaveImage(true)

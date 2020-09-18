@@ -313,12 +313,12 @@ public class PhotoPreviewActivity extends ImageBaseActivity implements ViewPager
 //            Log.e(TAG,"offsetW = " + offsetW + ",offsetH = " + offsetH);
             if (offsetW > 1.0f && !photo.isGif() && !photo.isWebp() && !photo.isVideo()) {//横向长图
                 photos.get(position).setLongPhoto(true);
-                SubsamplingScaleImageView subsamplingScaleImageView = loadLongPhoto(photo.getUri(), 0, screenHeight / photo.getHeight());
+                SubsamplingScaleImageView subsamplingScaleImageView = loadLongPhoto(Uri.parse(photo.getUri()), 0, screenHeight / photo.getHeight());
                 container.addView(subsamplingScaleImageView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 return subsamplingScaleImageView;
             } else if (offsetH > 0.8f && !photo.isGif() && !photo.isWebp() && !photo.isVideo()) {//纵向长图
                 photos.get(position).setLongPhoto(true);
-                SubsamplingScaleImageView subsamplingScaleImageView = loadLongPhoto(photo.getUri(), 1);
+                SubsamplingScaleImageView subsamplingScaleImageView = loadLongPhoto(Uri.parse(photo.getUri()), 1);
                 container.addView(subsamplingScaleImageView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 return subsamplingScaleImageView;
             } else {
@@ -330,7 +330,7 @@ public class PhotoPreviewActivity extends ImageBaseActivity implements ViewPager
 
                 if (photo.isVideo()) {
                     VideoPlayLayout videoPlayLayout = new VideoPlayLayout(container.getContext());
-                    videoPlayLayout.setData(photoView, photo.getUri());
+                    videoPlayLayout.setData(photoView, Uri.parse(photo.getUri()));
                     container.addView(videoPlayLayout, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                     return videoPlayLayout;
                 }

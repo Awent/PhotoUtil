@@ -126,7 +126,7 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
 //                    checkbox.setChecked(selectPhotos.contains(photo.getPath()));
                     checkbox.setChecked(selectPhotoList.contains(photo));
                 }
-                uri = photo.getUri();
+                uri = Uri.parse(photo.getUri());
                 if (photo.isGif()) {
                     Glide.with(context).asBitmap().load(uri).error(R.mipmap.failure_image).into(imageView);
                 } else {
@@ -168,13 +168,13 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
                     Photo photo = getItem(position);
                     if(pickBean.isSystemClipPhoto()){//启动系统裁剪
                         if(onUpdateListener != null){
-                            onUpdateListener.startSystemCrop(photo.getUri());
+                            onUpdateListener.startSystemCrop(Uri.parse(photo.getUri()));
                             return;
                         }
                     }
-                    startClipPic(photo.getPath(), photo.getUri().toString());
+                    startClipPic(photo.getPath(), photo.getUri());
                 } else {//查看大图
-                    new PhotoPreviewConfig.Builder((Activity) context)
+                    new PhotoPreviewConfig.Builder(context)
                             .setPosition(pickBean.isShowCamera() ? position - 1 : position)
                             .setMaxPickSize(pickBean.getMaxPickSize())
                             .setOriginalPicture(pickBean.isOriginalPicture())
@@ -224,11 +224,7 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
         return selectPhotos;
     }
 
-    public ArrayList<Photo> getPhotos() {
-        return photos;
-    }
-
-    public static ArrayList<Photo> getSelectPhotoList() {
+    public ArrayList<Photo> getSelectPhotoList() {
         return selectPhotoList;
     }
 
