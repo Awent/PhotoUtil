@@ -16,6 +16,7 @@ public class PhotoDirectory {
     private String coverPath;
     private String name;
     private long dateAdded;
+    private long dateModify;
     private List<Photo> photos = new ArrayList<>();
     private boolean isVideo;
 
@@ -35,6 +36,14 @@ public class PhotoDirectory {
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    public long getDateModify() {
+        return dateModify;
+    }
+
+    public void setDateModify(long dateModify) {
+        this.dateModify = dateModify;
     }
 
     public String getUri() {

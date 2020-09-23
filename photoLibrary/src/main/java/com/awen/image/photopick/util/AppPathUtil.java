@@ -60,9 +60,13 @@ public class AppPathUtil {
         if (TextUtils.isEmpty(path)) {
             path = PhotoSetting.getContext().getCacheDir().getPath();
         }
-        path = path +File.separator + str + File.separator;
+        path = path + File.separator + str + File.separator;
         exitesFolder(path);
         return path;
+    }
+
+    public static boolean isSdCardExit(){
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);// 判断sd卡是否存在
     }
 
     private static String getPath(String str) {
@@ -98,6 +102,19 @@ public class AppPathUtil {
             //防止有些图片没有后缀名
             fileName = fileName + ".jpg";
         }
+        return fileName;
+    }
+
+    public static String getRandomFileName(String url) {
+        String fileName = String.valueOf(System.currentTimeMillis());
+        if (!url.endsWith(".jpg") && !url.endsWith(".png") && !url.endsWith(".jpeg") && !url.endsWith(".gif") && !url.endsWith(".webp")) {
+            //防止有些图片没有后缀名
+            fileName = fileName + ".jpg";
+        } else {
+            String type = url.substring(url.lastIndexOf("."));
+            fileName = fileName + type;
+        }
+
         return fileName;
     }
 

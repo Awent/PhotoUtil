@@ -19,7 +19,8 @@ public class Photo implements Parcelable {
     private int width; //图片真实宽度
     private int height;//图片真实高度
     private String mimeType;//图片类型：image/webp、image/jpeg、image/png、image/gif
-    private long dateAdd;//添加的时间,用作视频跟图片组合后的排序
+    private long dateAdd;
+    private long dateModified;//改变的时间,用作视频跟图片组合后的排序
     private long duration;//视频的时长，毫秒
 
     public Photo(){}
@@ -34,6 +35,7 @@ public class Photo implements Parcelable {
         height = in.readInt();
         mimeType = in.readString();
         dateAdd = in.readLong();
+        dateModified = in.readLong();
         duration = in.readLong();
     }
 
@@ -53,6 +55,7 @@ public class Photo implements Parcelable {
         parcel.writeInt(height);
         parcel.writeString(mimeType);
         parcel.writeLong(dateAdd);
+        parcel.writeLong(dateModified);
         parcel.writeLong(duration);
     }
 
@@ -162,6 +165,14 @@ public class Photo implements Parcelable {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    public long getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(long dateModified) {
+        this.dateModified = dateModified;
     }
 
     public boolean isVideo(){

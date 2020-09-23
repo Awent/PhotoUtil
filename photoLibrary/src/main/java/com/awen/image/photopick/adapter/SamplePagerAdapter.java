@@ -14,6 +14,8 @@ import com.awen.image.photopick.ui.MyPhotoView;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.github.chrisbanes.photoview.OnViewTapListener;
 
+import java.util.ArrayList;
+
 public class SamplePagerAdapter extends PagerAdapter {
 
     private PhotoPagerBean photoPagerBean;
@@ -36,12 +38,19 @@ public class SamplePagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public View instantiateItem(@NonNull ViewGroup container, final int position) {
-        String imageUrl = photoPagerBean.getBigImgUrls().get(position);
+        String imageUrl;
+        String smallImageUrl = null;
+        ArrayList<String> list = photoPagerBean.getBigImgUrls();
+        ArrayList<String> smallList = photoPagerBean.getSmallImgUrls();
+        if (smallList != null && smallList.size() == list.size()) {
+            smallImageUrl = smallList.get(position);
+        }
+        imageUrl = list.get(position);
         final MyPhotoView photoView = new MyPhotoView(container.getContext(), position, screenWith, screenHeight, photoPagerBean.getErrorResId());
         photoView.setOnClickListener(onClickListener);
         photoView.setOnLongClickListener(onLongClickListener);
         photoView.setOnViewTapListener(onViewTapListener);
-        photoView.load(imageUrl);
+        photoView.load(imageUrl, smallImageUrl);
         container.addView(photoView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         return photoView;
     }

@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .pickModeMulti()
                         .maxPickSize(15)
                         .showCamera(false)
-                        .setToolbarBackGround(R.color.navigationBarColor)
+                        .setToolbarBackGround(R.color.colorAccent)
 //                        .showGif(false)
                         .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
                             @Override
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        .onlyImage()
                         .showCamera(true)
                         .setOriginalPicture(true)//让用户可以选择原图
+                        .setToolbarBackGround(R.color.colorPrimary)
                         .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
                             @Override
                             public void onResult(PhotoResultBean result) {
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new PhotoPickConfig.Builder(this)
 //                        .clipPhoto()//启动裁剪，但不是系统裁剪
                         .clipPhotoWithSystem()//启动系统裁剪功能
+                        .setToolbarBackGround(R.color.navigationBarColor)
                         .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
                             @Override
                             public void onResult(PhotoResultBean result) {

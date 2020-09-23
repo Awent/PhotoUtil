@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.awen.image.photopick.controller.PhotoPagerConfig;
 import com.awen.image.photopick.util.GlideCacheUtil;
 import com.awen.image.photopick.ui.VideoPlayActivity;
 
@@ -22,7 +23,6 @@ public class PhotoUtil extends PhotoSetting {
 
     private PhotoUtil() {
     }
-
 
     /**
      * 清除所有缓存（包括内存+磁盘）

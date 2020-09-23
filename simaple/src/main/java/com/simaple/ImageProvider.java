@@ -8,8 +8,9 @@ import java.util.List;
  */
 public class ImageProvider {
 
-    public static List<String> getImageUrls(){
+    public static List<String> getImageUrls() {
         List<String> list = new ArrayList<>();
+        list.add("https://wx3.sinaimg.cn/mw690/006qDXTKgy1fx8q6x78hkj30c80953yt.jpg");
         //网络长图,包括横向和纵向的长图
         list.add("https://wx2.sinaimg.cn/mw690/005MctNqgy1fx674gpkbvj30gf4k2wzp.jpg");
         list.add("https://wx2.sinaimg.cn/mw690/0062Xesrgy1fx8uu4ltdyj30j635g47x.jpg");
@@ -37,9 +38,10 @@ public class ImageProvider {
 
     /**
      * 大图
+     *
      * @return
      */
-    public static List<String> getBigImgUrls(){
+    public static List<String> getBigImgUrls() {
         List<String> list = new ArrayList<>();
         list.add("https://wx3.sinaimg.cn/mw690/0061VhPpgy1fx8w3jn6o8j30u00qd774.jpg");
         list.add("https://wx4.sinaimg.cn/mw690/006mQAf4ly1fx8yoea4zuj30vy1bzk0x.jpg");
@@ -49,9 +51,10 @@ public class ImageProvider {
 
     /**
      * 小图，这里随便找两张小图的
+     *
      * @return
      */
-    public static List<String> getSmallImgUrls(){
+    public static List<String> getSmallImgUrls() {
         List<String> list = new ArrayList<>();
         list.add("https://wx3.sinaimg.cn/mw690/006qDXTKgy1fx8q6x78hkj30c80953yt.jpg");
         list.add("https://wx3.sinaimg.cn/mw690/006qDXTKgy1fx8q6x78hkj30c80953yt.jpg");

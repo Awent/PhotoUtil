@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 
 import com.awen.image.PhotoSetting;
@@ -56,6 +57,10 @@ public class MyPhotoView extends FrameLayout {
 
     public void load(final String url) {
         imageLoad.load(this, photoView, url);
+    }
+
+    public void load(final String url, String smallUrl) {
+        imageLoad.load(this, photoView, url, smallUrl);
     }
 
     private void updateProgress(int progress) {

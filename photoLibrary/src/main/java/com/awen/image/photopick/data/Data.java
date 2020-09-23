@@ -22,6 +22,7 @@ import static android.provider.MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAM
 import static android.provider.MediaStore.Images.ImageColumns.BUCKET_ID;
 import static android.provider.MediaStore.MediaColumns.DATA;
 import static android.provider.MediaStore.MediaColumns.DATE_ADDED;
+import static android.provider.MediaStore.MediaColumns.DATE_MODIFIED;
 import static android.provider.MediaStore.MediaColumns.DURATION;
 import static android.provider.MediaStore.MediaColumns.HEIGHT;
 import static android.provider.MediaStore.MediaColumns.RELATIVE_PATH;
@@ -54,6 +55,7 @@ public class Data {
             int width = data.getInt(data.getColumnIndexOrThrow(WIDTH));
             int height = data.getInt(data.getColumnIndexOrThrow(HEIGHT));
             long dateAdd = data.getLong(data.getColumnIndexOrThrow(DATE_ADDED));
+            long dateModify = data.getLong(data.getColumnIndexOrThrow(DATE_MODIFIED));
             Photo photo = new Photo();
 
             if (size <= 0) {
@@ -67,7 +69,8 @@ public class Data {
             photo.setMimeType(mimeType);
             photo.setWidth(width);
             photo.setHeight(height);
-            photo.setDateAdd(dateAdd);
+            photo.setDateAdd(dateModify);
+            photo.setDateModified(dateModify);
 
             PhotoDirectory photoDirectory = new PhotoDirectory();
             photoDirectory.setId(bucketId);
@@ -76,7 +79,7 @@ public class Data {
                 photoDirectory.setCoverPath(path);
                 photoDirectory.addPhoto(photo);
                 photoDirectory.setUri(uri.toString());
-                photoDirectory.setDateAdded(dateAdd);
+                photoDirectory.setDateAdded(dateModify);
                 directories.add(photoDirectory);
             } else {
                 directories.get(directories.indexOf(photoDirectory)).addPhoto(photo);
@@ -89,6 +92,7 @@ public class Data {
             photoDirectoryAll.setUri(p.getUri());
         }
         photoDirectoryAll.setDateAdded(new Date().getTime());
+        photoDirectoryAll.setDateModify(photoDirectoryAll.getDateAdded());
         directories.add(INDEX_ALL_PHOTOS, photoDirectoryAll);
         return directories;
     }
@@ -109,6 +113,7 @@ public class Data {
             int width = data.getInt(data.getColumnIndexOrThrow(WIDTH));
             int height = data.getInt(data.getColumnIndexOrThrow(HEIGHT));
             long dateAdd = data.getLong(data.getColumnIndexOrThrow(DATE_ADDED));
+            long dateModify = data.getLong(data.getColumnIndexOrThrow(DATE_MODIFIED));
             long duration = data.getLong(data.getColumnIndexOrThrow(DURATION));
 
             Photo photo = new Photo();
@@ -125,6 +130,7 @@ public class Data {
             photo.setWidth(width);
             photo.setHeight(height);
             photo.setDateAdd(dateAdd);
+            photo.setDateModified(dateModify);
             photo.setDuration(duration);
 
             if (TextUtils.isEmpty(videoDir.getCoverPath())) {
@@ -134,6 +140,7 @@ public class Data {
             videoDir.addPhoto(photo);
         }
         videoDir.setDateAdded(new Date().getTime());
+        videoDir.setDateModify(videoDir.getDateAdded());
         videoDir.setVideo(true);
         return videoDir;
     }
@@ -161,7 +168,7 @@ public class Data {
             @Override
             public int compare(Photo o1, Photo o2) {
                 try {
-                    if (o1.getDateAdd() < o2.getDateAdd()) {
+                    if (o1.getDateModified() < o2.getDateModified()) {
                         return 1;
                     } else {
                         return -1;

@@ -1,11 +1,13 @@
 package com.awen.image.photopick.loader;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,6 +22,7 @@ import com.awen.image.photopick.pro.ProgressListener;
 import com.awen.image.photopick.util.AppPathUtil;
 import com.awen.image.photopick.util.CalculateUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.HttpException;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -52,7 +55,7 @@ public class ImageLoadImpl implements ImageLoad {
     private static final int VERTICAL = 1;
     private static final float ratioX = 1.05f; //大于此值即表示横向长图
     private static final float ratioY = 0.8f; //大于此值即表示纵向长图
-//    private static final float ratioX = 0.25f; //大于此值即表示横向长图
+    //    private static final float ratioX = 0.25f; //大于此值即表示横向长图
 //    private static final float ratioY = 1.05f; //大于此值即表示纵向长图
     private Context context;
     private float screenWith, screenHeight;
@@ -61,6 +64,7 @@ public class ImageLoadImpl implements ImageLoad {
     private OnViewTapListener onViewTapListener;
     private int position;
     private boolean isLongImage = false;
+    private boolean isLoadThumbnail = true;
     private int errorResId;
     private Handler handler;
     private String url;
@@ -81,18 +85,24 @@ public class ImageLoadImpl implements ImageLoad {
 
     @Override
     public void load(final FrameLayout parent, final PhotoView photoView, final String url) {
+        load(parent, photoView, url, null);
+    }
+
+    @Override
+    public void load(final FrameLayout parent, final PhotoView photoView, final String url, String thumbnailUrl) {
         this.url = url;
+        ProgressInterceptor.addListener(url, progressListener);
         photoView.setOnViewTapListener(onViewTapListener);
         photoView.setOnClickListener(onClickListener);
         if (isGifOrWebp(url)) {
-            loadGif(photoView, url);
+            loadGif(photoView, url,thumbnailUrl);
             return;
         }
-        ProgressInterceptor.addListener(url, progressListener);
 
         Glide.with(context)
                 .asBitmap()
                 .load(url)
+                .thumbnail(Glide.with(context).asBitmap().load(thumbnailUrl))
                 .skipMemoryCache(true)
                 .error(errorResId != 0 ? errorResId : R.mipmap.failure_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -116,7 +126,11 @@ public class ImageLoadImpl implements ImageLoad {
 
                     @Override
                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        if (DEBUG) {
+                            Log.e(TAG, "---RequestListener-onResourceReady---");
+                        }
                         isLongImage = isLongImage(resource, url);
+                        isLoadThumbnail = false;
                         return false;
                     }
                 })
@@ -131,16 +145,16 @@ public class ImageLoadImpl implements ImageLoad {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        ProgressInterceptor.LISTENER_MAP.get(url).onLoadFailed();
-                        ProgressInterceptor.removeListener(url);
-                        handler.sendEmptyMessage(PROGRESS_GONE);
+                        removeProListener();
                     }
 
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         super.onResourceReady(resource, transition);
-                        handler.sendEmptyMessage(PROGRESS_GONE);
-                        ProgressInterceptor.removeListener(url);
+                        if(isLoadThumbnail){//如果是小图，也会回调这里，要做下判断
+                            return;
+                        }
+                        removeProListener();
                         if (isLongImage) {
                             String cancelPath = AppPathUtil.getGlideLocalCachePath(url);
                             if (DEBUG) {
@@ -164,30 +178,24 @@ public class ImageLoadImpl implements ImageLoad {
     }
 
     @Override
-    public void loadGif(final PhotoView photoView, final String url) {
-        ProgressInterceptor.addListener(url, progressListener);
+    public void loadGif(final PhotoView photoView, final String url, String thumbnailUrl) {
         Glide.with(context)
                 .asGif()
                 .load(url)
+                .thumbnail(Glide.with(context).asGif().load(thumbnailUrl))
                 .skipMemoryCache(true)
                 .error(errorResId != 0 ? errorResId : R.mipmap.failure_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(new RequestListener<GifDrawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<GifDrawable> target, boolean isFirstResource) {
-                        ProgressListener listener = ProgressInterceptor.LISTENER_MAP.get(url);
-                        if (listener != null) {
-                            listener.onLoadFailed();
-                        } else {
-                            handler.sendEmptyMessage(PROGRESS_GONE);
-                        }
+                        removeProListener();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(GifDrawable resource, Object model, Target<GifDrawable> target, DataSource dataSource, boolean isFirstResource) {
-                        handler.sendEmptyMessage(PROGRESS_GONE);
-                        ProgressInterceptor.removeListener(url);
+                        removeProListener();
                         setPhotoViewListener(photoView);
                         return false;
                     }
@@ -252,6 +260,11 @@ public class ImageLoadImpl implements ImageLoad {
 
     @Override
     public void onDestroy() {
+        removeProListener();
+    }
+
+    private void removeProListener() {
+        handler.sendEmptyMessage(PROGRESS_GONE);
         ProgressInterceptor.removeListener(url);
     }
 

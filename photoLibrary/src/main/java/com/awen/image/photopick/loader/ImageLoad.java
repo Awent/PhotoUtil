@@ -1,7 +1,11 @@
 package com.awen.image.photopick.loader;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.github.chrisbanes.photoview.OnViewTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -15,7 +19,9 @@ public interface ImageLoad {
 
     void load(FrameLayout parent, PhotoView photoView, String url);
 
-    void loadGif(PhotoView photoView,String url);
+    void load(FrameLayout parent, PhotoView photoView, String url,String thumbnailUrl);
+
+    void loadGif(PhotoView photoView,String url, String thumbnailUrl);
 
     SubsamplingScaleImageView getSubsamplingScaleImageView(File file, int bitmapWidth, int bitmapHeight, String url) ;
 

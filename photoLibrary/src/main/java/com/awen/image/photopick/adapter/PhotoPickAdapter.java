@@ -1,10 +1,7 @@
 package com.awen.image.photopick.adapter;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +18,9 @@ import com.awen.image.photopick.bean.Photo;
 import com.awen.image.photopick.bean.PhotoPickBean;
 import com.awen.image.photopick.controller.PhotoPickConfig;
 import com.awen.image.photopick.controller.PhotoPreviewConfig;
-import com.awen.image.photopick.ui.ClipPictureActivity;
-import com.awen.image.photopick.ui.PhotoPickActivity;
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import kr.co.namee.permissiongen.PermissionGen;
-
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
@@ -158,21 +149,23 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
                     }
                 }
                 if (onUpdateListener != null) {
-                    onUpdateListener.updataToolBarTitle(getTitle());
+                    onUpdateListener.updateToolBarTitle(getTitle());
                 }
             } else if (v.getId() == R.id.photo_pick_layout) {
                 if (pickBean.isShowCamera() && position == 0) {
-                    //以下操作会回调Activity中的#selectPicFromCameraSuccess()或selectPicFromCameraFailed()
-                    PermissionGen.needPermission((Activity) context, PhotoPickActivity.REQUEST_CODE_PERMISSION_CAMERA, Manifest.permission.CAMERA);
-                } else if (pickBean.isClipPhoto()) {//头像裁剪
-                    Photo photo = getItem(position);
-                    if(pickBean.isSystemClipPhoto()){//启动系统裁剪
-                        if(onUpdateListener != null){
-                            onUpdateListener.startSystemCrop(Uri.parse(photo.getUri()));
-                            return;
-                        }
+                    if (onUpdateListener != null) {
+                        onUpdateListener.requestCameraPermission();
                     }
-                    startClipPic(photo.getPath(), photo.getUri());
+                } else if (pickBean.isClipPhoto()) {//头像裁剪
+                    if (onUpdateListener == null) {
+                        return;
+                    }
+                    Photo photo = getItem(position);
+                    if (pickBean.isSystemClipPhoto()) {//启动系统裁剪
+                        onUpdateListener.startSystemCrop(Uri.parse(photo.getUri()));
+                        return;
+                    }
+                    onUpdateListener.startClipPic(photo.getPath(), photo.getUri());
                 } else {//查看大图
                     new PhotoPreviewConfig.Builder(context)
                             .setPosition(pickBean.isShowCamera() ? position - 1 : position)
@@ -192,14 +185,6 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
         int hours = totalSeconds / 3600;
 
         return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds) : String.format("%02d:%02d", minutes, seconds);
-    }
-
-    public void startClipPic(String path, String uri) {
-        Intent intent = new Intent(context, ClipPictureActivity.class);
-        intent.putExtra(ClipPictureActivity.USER_PHOTO_PATH, path);
-        intent.putExtra(ClipPictureActivity.USER_PHOTO_URI, uri);
-        ((Activity) context).startActivityForResult(intent, PhotoPickActivity.REQUEST_CODE_CLIPIC);
-        ((Activity) context).overridePendingTransition(R.anim.bottom_in, 0);
     }
 
     /**
@@ -239,9 +224,13 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
     }
 
     public interface OnUpdateListener {
-        void updataToolBarTitle(String title);
+        void updateToolBarTitle(String title);
 
         void startSystemCrop(Uri uri);
+
+        void startClipPic(String path, String uri);
+
+        void requestCameraPermission();
     }
 
     public void destroy() {

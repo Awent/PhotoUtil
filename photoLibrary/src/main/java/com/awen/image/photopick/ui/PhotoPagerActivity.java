@@ -4,16 +4,19 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
+
 import com.awen.image.PhotoSetting;
 import com.awen.image.ImageBaseActivity;
 import com.awen.image.R;
@@ -28,6 +31,9 @@ import com.awen.image.photopick.controller.PhotoPagerConfig;
 import com.awen.image.photopick.util.SDKVersionUtil;
 import com.awen.image.photopick.widget.ScalePhotoView;
 import com.github.chrisbanes.photoview.OnViewTapListener;
+
+import java.io.File;
+
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
@@ -35,7 +41,6 @@ import me.relex.circleindicator.CircleIndicator;
 
 /**
  * 图片查看器<br>
- * 后期会继续添加视频播放
  * <p>
  * 你可重写以下方法：<br>
  * {@link #setCustomView(int)} <br>
@@ -127,8 +132,8 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
         final View content = LayoutInflater.from(this).inflate(R.layout.activity_photo_detail_pager, rootLayout);
         setContentView(rootLayout);
 
-        indicator = (CircleIndicator) content.findViewById(R.id.indicator);
-        viewPager = (ViewPager) content.findViewById(R.id.pager);
+        indicator = content.findViewById(R.id.indicator);
+        viewPager = content.findViewById(R.id.pager);
         SamplePagerAdapter adapter = new SamplePagerAdapter(this, photoPagerBean);
         setListener(adapter);
         viewPager.setAdapter(adapter);
@@ -143,7 +148,7 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
         setCustomView(-1);//设置用户自定义的view
 
         //类似微信图片下拉关闭
-        scalePhotoView = (ScalePhotoView) content.findViewById(R.id.scalePhotoView);
+        scalePhotoView = content.findViewById(R.id.scalePhotoView);
         scalePhotoView.setOpenDownAnimate(photoPagerBean.isOpenDownAnimate());
         if (photoPagerBean.isOpenDownAnimate()) {
             scalePhotoView.setOnViewTouchListener(new ScalePhotoView.onViewTouchListener() {
@@ -266,8 +271,7 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
 //        Log.e(TAG, "startPermissionSDSuccess");
         //保存图片到本地
         String bigImgUrl = photoPagerBean.getBigImgUrls().get(currentPosition);
-        String lastName = bigImgUrl.substring(bigImgUrl.lastIndexOf("/") + 1);
-        String fileName = AppPathUtil.getFileName(lastName);
+        String fileName = AppPathUtil.getRandomFileName(bigImgUrl);
         String filePath = (PhotoSetting.getSaveImageLocalPath() == null ? AppPathUtil.getBigBitmapCachePath() : PhotoSetting.getSaveImageLocalPath());
         if (saveImageLocalPath != null) {
             filePath = saveImageLocalPath;
@@ -283,7 +287,9 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
                     Uri uri = ImageUtils.saveImageQ(fileName, b);
                     if (uri != null) {
                         //默认保存在公共Pictures目录下
-                        filePath = "/storage/emulated/0/Pictures/" + fileName;
+                        if (AppPathUtil.isSdCardExit()) {
+                            filePath = "/storage/emulated/0/Pictures/" + fileName;
+                        }
                         state = true;
                     }
                 } else {
