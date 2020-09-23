@@ -1,5 +1,7 @@
 ﻿
  # PhotoUtil (仅支持AndroidX，本项目已适配Android Q)
+ [![](https://jitpack.io/v/Awent/PhotoUtil.svg)](https://jitpack.io/#Awent/PhotoUtil)
+ 
  1、图库选图或视频，可多选，单选，可选完图片后进行裁剪，2、查看网络大图(自动识别是否为超长图)，并可以保存到手机图库,3、适配沉浸式状态栏，4、Glide加载
  
  [demo-apk下载](https://github.com/Awent/PhotoUtil/blob/master/simaple/release/simaple-release.apk)
@@ -55,7 +57,7 @@ allprojects {
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
-    implementation 'com.github.Awent:PhotoUtil:v1.0.1'
+    implementation 'com.github.Awent:PhotoUtil:v1.0.2'
 ```
 
 
@@ -214,6 +216,11 @@ kotlin写法：
 [更多使用方法参考点这里](https://github.com/Awent/PhotoUtil/blob/master/simaple/src/main/java/com/simaple/activity/MainActivity.java)
 
 [Glide图片加载进度参考](https://juejin.im/post/6847902221951041549)
+
+
+### v1.0.2：
+implementation 'com.github.Awent:PhotoUtil:v1.0.2'
+
 
 ### v1.0.1：
 implementation 'com.github.Awent:PhotoUtil:v1.0.1'
