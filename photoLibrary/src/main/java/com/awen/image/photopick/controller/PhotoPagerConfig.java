@@ -85,6 +85,10 @@ public class PhotoPagerConfig {
             photoPagerBean.setOpenDownAnimate(true);
         }
 
+        public Builder<T> create(){
+            return this;
+        }
+
         /**
          * 为了方便开发者能快速调用查看大图功能，提供了此方法
          * <p>

@@ -103,8 +103,6 @@ public class ScalePhotoView extends FrameLayout  {
                 }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
-                onTouchActivePointer(ev);
-                break;
             case MotionEvent.ACTION_POINTER_UP:
                 onTouchActivePointer(ev);
                 break;

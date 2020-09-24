@@ -9,6 +9,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import static com.awen.image.PhotoSetting.DEBUG;
+
 /**
  * 仿微博图片加载进度条
  * Created by Awen <Awentljs@gmail.com>
@@ -16,7 +18,6 @@ import androidx.annotation.NonNull;
 
 public class RoundProgressBar extends View {
     private static final String TAG = "RoundProgressBar";
-    private boolean DEBUG = false;
     private long maxValue = 100;
     private long progress;
     private Paint circlePaint;

@@ -32,8 +32,12 @@ import java.util.Map;
 
 /**
  * 图片归版权者所有
+ * 你可以完全使用{@link PhotoUtil}图片工具类来完成所有功能的调用，你也可以使用new的方式。
+ * 注：onclick方法里面所有注释了的代码都可以打开来直接运行的，注释是为了展示不同的调用方式
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private boolean isUsePhotoUtil = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button10).setOnClickListener(this);
     }
 
-    private void startAc(ArrayList<Photo> list){
+    private void startAc(ArrayList<Photo> list) {
         startActivity(new Intent(MainActivity.this, SampleListActivity.class)
                 .putParcelableArrayListExtra("photos", list));
     }
@@ -60,81 +64,156 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button://图库
-                //方法1
-                new PhotoPickConfig.Builder(this)
-                        .pickModeMulti()
-                        .maxPickSize(15)
-                        .showCamera(false)
-                        .setToolbarBackGround(R.color.colorAccent)
+                if (isUsePhotoUtil) {
+                    PhotoUtil.pick(this)
+                            .pickModeMulti()
+                            .maxPickSize(15)
+                            .showCamera(false)
+                            .setToolbarBackGround(R.color.colorAccent)
 //                        .showGif(false)
-                        .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
-                            @Override
-                            public void onResult(PhotoResultBean result) {
-                                startAc(result.getList());
-                            }
-                        })
-                        .build();
-
+                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                                @Override
+                                public void onResult(PhotoResultBean result) {
+                                    startAc(result.getList());
+                                }
+                            })
+                            .build();
+                } else {
+                    new PhotoPickConfig.Builder(this)
+                            .pickModeMulti()
+                            .maxPickSize(15)
+                            .showCamera(false)
+                            .setToolbarBackGround(R.color.colorAccent)
+//                        .showGif(false)
+                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                                @Override
+                                public void onResult(PhotoResultBean result) {
+                                    startAc(result.getList());
+                                }
+                            })
+                            .build();
+                }
                 break;
             case R.id.button4://图库(可以启动拍照)
-                new PhotoPickConfig.Builder(this)
-                        .pickModeMulti()
-                        .maxPickSize(15)
+                if (isUsePhotoUtil) {
+                    PhotoUtil.pick(this)
+                            .pickModeMulti()
+                            .maxPickSize(15)
 //                        .onlyVideo()
 //                        .onlyImage()
-                        .showCamera(true)
-                        .setOriginalPicture(true)//让用户可以选择原图
-                        .setToolbarBackGround(R.color.colorPrimary)
-                        .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
-                            @Override
-                            public void onResult(PhotoResultBean result) {
-                                Log.e("MainActivity", "result = " + result.getPhotoLists().size());
-                                Log.e("MainActivity", "result photos= " + result.getList().size());
-                                startAc(result.getList());
-                            }
-                        })
-                        .build();
+                            .showCamera(true)
+                            .setOriginalPicture(true)//让用户可以选择原图
+                            .setToolbarBackGround(R.color.colorPrimary)
+                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                                @Override
+                                public void onResult(PhotoResultBean result) {
+                                    Log.e("MainActivity", "result = " + result.getPhotoLists().size());
+                                    Log.e("MainActivity", "result photos= " + result.getList().size());
+                                    startAc(result.getList());
+                                }
+                            })
+                            .build();
+                } else {
+                    new PhotoPickConfig.Builder(this)
+                            .pickModeMulti()
+                            .maxPickSize(15)
+//                        .onlyVideo()
+//                        .onlyImage()
+                            .showCamera(true)
+                            .setOriginalPicture(true)//让用户可以选择原图
+                            .setToolbarBackGround(R.color.colorPrimary)
+                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                                @Override
+                                public void onResult(PhotoResultBean result) {
+                                    Log.e("MainActivity", "result = " + result.getPhotoLists().size());
+                                    Log.e("MainActivity", "result photos= " + result.getList().size());
+                                    startAc(result.getList());
+                                }
+                            })
+                            .build();
+                }
                 break;
             case R.id.button2://裁剪头像
-                new PhotoPickConfig.Builder(this)
+                if (isUsePhotoUtil) {
+                    PhotoUtil.pick(this)
 //                        .clipPhoto()//启动裁剪，但不是系统裁剪
-                        .clipPhotoWithSystem()//启动系统裁剪功能
-                        .setToolbarBackGround(R.color.navigationBarColor)
-                        .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
-                            @Override
-                            public void onResult(PhotoResultBean result) {
-                                startAc(result.getList());
-                            }
-                        })
-                        .build();
+                            .clipPhotoWithSystem()//启动系统裁剪功能
+                            .setToolbarBackGround(R.color.navigationBarColor)
+                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                                @Override
+                                public void onResult(PhotoResultBean result) {
+                                    startAc(result.getList());
+                                }
+                            })
+                            .build();
+                } else {
+                    new PhotoPickConfig.Builder(this)
+//                        .clipPhoto()//启动裁剪，但不是系统裁剪
+                            .clipPhotoWithSystem()//启动系统裁剪功能
+                            .setToolbarBackGround(R.color.navigationBarColor)
+                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                                @Override
+                                public void onResult(PhotoResultBean result) {
+                                    startAc(result.getList());
+                                }
+                            })
+                            .build();
+                }
                 break;
             case R.id.button3://查看(网络)大图
-                new PhotoPagerConfig.Builder<String>(this)
-                        .setBigImageUrls(ImageProvider.getImageUrls())
-                        .setSaveImage(true)
+                if (isUsePhotoUtil) {
+                    PhotoUtil.browser(this)
+                            .setBigImageUrls(ImageProvider.getImageUrls())
+                            .setSaveImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")
-                        .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
-                            @Override
-                            public void onSaveImageResult(String localFilePath) {
-                                if (localFilePath != null) {
-                                    Toast.makeText(MainActivity.this, "图片保存成功，本地地址：" + localFilePath, Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(MainActivity.this, "图片保存失败", Toast.LENGTH_LONG).show();
+                            .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
+                                @Override
+                                public void onSaveImageResult(String localFilePath) {
+                                    if (localFilePath != null) {
+                                        Toast.makeText(MainActivity.this, "图片保存成功，本地地址：" + localFilePath, Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "图片保存失败", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        })
-                        .build();
+                            })
+                            .build();
+                } else {
+                    new PhotoPagerConfig.Builder<String>(this)
+                            .setBigImageUrls(ImageProvider.getImageUrls())
+                            .setSaveImage(true)
+//                        .setPosition(2)
+//                        .setSaveImageLocalPath("这里是你想保存的图片地址")
+                            .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
+                                @Override
+                                public void onSaveImageResult(String localFilePath) {
+                                    if (localFilePath != null) {
+                                        Toast.makeText(MainActivity.this, "图片保存成功，本地地址：" + localFilePath, Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "图片保存失败", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            })
+                            .build();
+                }
+
                 break;
             case R.id.button5://大图展示前先显示小图
-                //方法1
-                new PhotoPagerConfig.Builder<String>(this)
-                        .setBigImageUrls(ImageProvider.getBigImgUrls())
-                        .setSmallImageUrls(ImageProvider.getSmallImgUrls())
-                        .setSaveImage(true)
-                        .build();
+                if (isUsePhotoUtil) {
+                    PhotoUtil.browser(this)
+                            .setBigImageUrls(ImageProvider.getBigImgUrls())
+                            .setSmallImageUrls(ImageProvider.getSmallImgUrls())
+                            .setSaveImage(true)
+                            .build();
+                } else {
+                    //方法1
+                    new PhotoPagerConfig.Builder<String>(this)
+                            .setBigImageUrls(ImageProvider.getBigImgUrls())
+                            .setSmallImageUrls(ImageProvider.getSmallImgUrls())
+                            .setSaveImage(true)
+                            .build();
 
-                //方法2,一张一张图片地添加
+                    //方法2,一张一张图片地添加
 //                new PhotoPagerConfig.Builder(this)
 //                        //添加大图
 //                        .addSingleBigImageUrl("http://120.27.113.153/frogdrfs/2016/08/22/0ac279d511de46a0858a1812efe9a1ce.jpg")
@@ -144,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        .setSavaImage(true)
 //                        .build();
 
-                //方法3
-                //先构建实体类,在实体类里设置好参数
+                    //方法3
+                    //先构建实体类,在实体类里设置好参数
 //                PhotoPagerBean bean = new PhotoPagerBean();
 //                bean.setBigImgUrls(ImageProvider.getBigImgUrls());
 //                bean.setSmallImgUrls(ImageProvider.getSmallImgUrls());
@@ -154,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                new PhotoPagerConfig.Builder(this)
 //                        .setPhotoPagerBean(bean)
 //                        .build();
+                }
                 break;
             case R.id.button6://获取缓存大小:
                 ((Button) findViewById(R.id.button6)).setText("缓存大小：" + PhotoUtil.getSDCacheSizeFormat(this));
@@ -183,40 +263,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("test_bundle", list);
 
-                new PhotoPagerConfig.Builder<String>(this, MyPhotoPagerActivity.class)
-                        .setBigImageUrls(ImageProvider.getImageUrls())
-                        .setSaveImage(true)
-                        .setBundle(bundle) //传递自己的数据，如果数据中包含java bean，必须实现Parcelable接口
-                        .setOpenDownAnimate(false)
-                        .build();
+                if (isUsePhotoUtil) {
+                    //注意这里调用的是browserCustom
+                    PhotoUtil.browserCustom(this, MyPhotoPagerActivity.class)
+                            .setBigImageUrls(ImageProvider.getImageUrls())
+                            .setSaveImage(true)
+                            .setBundle(bundle) //传递自己的数据，如果数据中包含java bean，必须实现Parcelable接口
+                            .setOpenDownAnimate(false)
+                            .build();
+                } else {
+                    new PhotoPagerConfig.Builder<String>(this, MyPhotoPagerActivity.class)
+                            .setBigImageUrls(ImageProvider.getImageUrls())
+                            .setSaveImage(true)
+                            .setBundle(bundle) //传递自己的数据，如果数据中包含java bean，必须实现Parcelable接口
+                            .setOpenDownAnimate(false)
+                            .build();
+                }
                 break;
             case R.id.button9://跳到自定义的PhotoPagerActivity(kotlin写法)
                 Bundle mBundle = new Bundle();
                 mBundle.putLong("user_id", 100000L);
-                new PhotoPagerConfig.Builder<String>(this, CustomPhotoPageActivity.class)
-                        .setBigImageUrls(ImageProvider.getImageUrls())
-                        .setSaveImage(true)
-                        .setBundle(mBundle)
-                        .build();
+
+                if (isUsePhotoUtil) {
+                    PhotoUtil.browserCustom(this, CustomPhotoPageActivity.class)
+                            .setBigImageUrls(ImageProvider.getImageUrls())
+                            .setSaveImage(true)
+                            .setBundle(mBundle)
+                            .build();
+                } else {
+                    new PhotoPagerConfig.Builder<String>(this, CustomPhotoPageActivity.class)
+                            .setBigImageUrls(ImageProvider.getImageUrls())
+                            .setSaveImage(true)
+                            .setBundle(mBundle)
+                            .build();
+                }
                 break;
             case R.id.button10://实际开发常用写法（查看网络大图）
                 //fromList的使用
                 List<UserBean.User> userList = initUserData().getList();
-                new PhotoPagerConfig.Builder<UserBean.User>(this, PhotoPagerActivity.class /**或者这里传入你自定义的CustomPhotoPageActivity*/)
-                        .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
-                            @Override
-                            public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
-                                //一定要在这里获取你的图片字段，然后设置进去即可
-                                builder.addSingleBigImageUrl(item.getAvatar());
-                                builder.addSingleSmallImageUrl(item.getSmallAvatar());
-                            }
-                        })
-                        .setSaveImage(true)
-                        .build();
+                if (isUsePhotoUtil) {
+//                    PhotoUtil.browser(this,UserBean.User.class,CustomPhotoPageActivity.class/**或者这里传入你自定义的CustomPhotoPageActivity*/)
+                    PhotoUtil.browser(this, UserBean.User.class)
+                            .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
+                                @Override
+                                public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
+                                    //一定要在这里获取你的图片字段，然后设置进去即可
+                                    builder.addSingleBigImageUrl(item.getAvatar());
+                                    builder.addSingleSmallImageUrl(item.getSmallAvatar());
+                                }
+                            })
+                            .setSaveImage(true)
+                            .build();
+                } else {
+                    new PhotoPagerConfig.Builder<UserBean.User>(this)
+                            .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
+                                @Override
+                                public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
+                                    //一定要在这里获取你的图片字段，然后设置进去即可
+                                    builder.addSingleBigImageUrl(item.getAvatar());
+                                    builder.addSingleSmallImageUrl(item.getSmallAvatar());
+                                }
+                            })
+                            .setSaveImage(true)
+                            .build();
+                }
+
 
                 //或者是以下的fromMap使用
 //                Map<Integer, UserBean.User> map = initUserDataMap();
-//                new PhotoPagerConfig.Builder<UserBean.User>(this, PhotoPageActivity.class)
+//                PhotoUtil.browser(this,UserBean.User.class)
 //                        .fromMap(map, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
 //                            @Override
 //                            public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
@@ -224,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                                builder.addSingleBigImageUrl(item.getAvatar());
 //                            }
 //                        })
-//                        .setSavaImage(true)
+//                        .setSaveImage(true)
 //                        .build();
                 break;
         }

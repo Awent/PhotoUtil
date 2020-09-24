@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -65,7 +66,7 @@ public class MyPhotoView extends FrameLayout {
 
     private void updateProgress(int progress) {
         if (PhotoSetting.DEBUG) {
-//            Log.e(TAG, " --progress = " + progress);
+            Log.e(TAG, " --progress = " + progress);
         }
         boolean isDone = progress == 100;
         if (isDone) {
@@ -80,6 +81,7 @@ public class MyPhotoView extends FrameLayout {
         private WeakReference<MyPhotoView> rf;
 
         public PreHandler(MyPhotoView instance) {
+            super();
             rf = new WeakReference<>(instance);
         }
 
