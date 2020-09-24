@@ -57,7 +57,7 @@ allprojects {
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
-    implementation 'com.github.Awent:PhotoUtil:v1.0.2'
+    implementation 'com.github.Awent:PhotoUtil:v1.0.3'
 ```
 
 
@@ -66,7 +66,7 @@ allprojects {
 - 图库
 
 ```
-new PhotoPickConfig.Builder(this)
+PhotoUtil.pick(this)
     .pickModeMulti()                            //多选
     .pickModeSingle()                           //单选
     .onlyImage()                                //只显示图片,不包含视频，默认是图片跟视频都展示,如果showCamera(true)，只会启动系统拍照，并返回图片路径
@@ -87,7 +87,7 @@ new PhotoPickConfig.Builder(this)
 
 ```
 方法一：
-new PhotoPickConfig.Builder(this)
+PhotoUtil.pick(this)
     .pickModeMulti()
     .maxPickSize(15)
     .showCamera(true)
@@ -130,7 +130,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 - 查看网络大图
 
 ```
-new PhotoPagerConfig.Builder<T>(this)
+PhotoUtil.browser(this, Class<T> t)
     .fromList(Iterable<? extends T> iterable, OnItemCallBack<T> listener)//接收集合数据并提供内循环返回所有item
     .fromMap(Map<?, T> map, OnItemCallBack<T> listener)                  //接收集合数据并提供内循环返回所有item
     .setBigImageUrls(ImageProvider.getImageUrls())      //大图片url,可以是sd卡res，asset，网络图片.
@@ -148,7 +148,7 @@ new PhotoPagerConfig.Builder<T>(this)
     
 自定义界面，详细自定义用法参考demo：
 
-new PhotoPagerConfig.Builder(this,Class<?> clazz)       //这里传入你自定义的Activity class,自定义的activity必须继承PhotoPagerActivity
+PhotoUtil.browserCustom(this,Class<?> clazz)       //这里传入你自定义的Activity class,自定义的activity必须继承PhotoPagerActivity
     ...
     ...
     ...
@@ -176,7 +176,7 @@ or
 Map<Integer, UserBean.User> map = new HashMap<>();  //使用fromMap
 
 java写法：
-            new PhotoPagerConfig.Builder<UserBean.User>(this)
+            PhotoUtil.browser(this, UserBean.User.class)
                         .fromList(list, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
                             @Override
                             public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
@@ -194,7 +194,7 @@ java写法：
                                   
 kotlin写法：
               list?.let {
-                PhotoPagerConfig.Builder<UserBean.User>(this)
+                PhotoUtil.browser(this, UserBean.User::class.java)
                         .fromList(it) { item, builder ->
                             builder.addSingleBigImageUrl(item.avatar)//这个avatar就是你需要关注的字段，在这里设置进去即可
                         }.build()
@@ -215,13 +215,15 @@ kotlin写法：
  
 [更多使用方法参考点这里](https://github.com/Awent/PhotoUtil/blob/master/simaple/src/main/java/com/simaple/activity/MainActivity.java)
 
+[PhotoUtil](https://github.com/Awent/PhotoUtil/blob/master/photoLibrary/src/main/java/com/awen/image/PhotoUtil.java)
+
 [Glide图片加载进度参考](https://juejin.im/post/6847902221951041549)
+
+
+### v1.0.3：
+implementation 'com.github.Awent:PhotoUtil:v1.0.3'
 
 
 ### v1.0.2：
 implementation 'com.github.Awent:PhotoUtil:v1.0.2'
-
-
-### v1.0.1：
-implementation 'com.github.Awent:PhotoUtil:v1.0.1'
 
