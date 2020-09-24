@@ -57,7 +57,7 @@ allprojects {
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
-    implementation 'com.github.Awent:PhotoUtil:v1.0.3'
+    implementation 'com.github.Awent:PhotoUtil:v1.0.5'
 ```
 
 
@@ -220,8 +220,8 @@ kotlin写法：
 [Glide图片加载进度参考](https://juejin.im/post/6847902221951041549)
 
 
-### v1.0.3：
-implementation 'com.github.Awent:PhotoUtil:v1.0.3'
+### v1.0.5：
+implementation 'com.github.Awent:PhotoUtil:v1.0.5'
 
 
 ### v1.0.2：
