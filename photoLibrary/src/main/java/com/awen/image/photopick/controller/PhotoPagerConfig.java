@@ -68,7 +68,7 @@ public class PhotoPagerConfig {
             this(context, PhotoPagerActivity.class);
         }
 
-        public Builder(Context context, Class<?> clazz) {
+        public Builder(Context context, Class<? extends PhotoPagerActivity> clazz) {
             if (context == null) {
                 throw new NullPointerException("activity is null");
             }

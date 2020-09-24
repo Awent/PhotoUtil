@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.awen.image.photopick.controller.PhotoPagerConfig;
 import com.awen.image.photopick.controller.PhotoPickConfig;
+import com.awen.image.photopick.ui.PhotoPagerActivity;
 import com.awen.image.photopick.util.GlideCacheUtil;
 import com.awen.image.photopick.ui.VideoPlayActivity;
 
@@ -139,7 +140,7 @@ public class PhotoUtil extends PhotoSetting {
      */
     @NonNull
     @CheckResult
-    public static <T> PhotoPagerConfig.Builder<T> browserCustom(@NonNull Context context, @NonNull Class<? extends Activity> clazz) {
+    public static <T> PhotoPagerConfig.Builder<T> browserCustom(@NonNull Context context, @NonNull Class<? extends PhotoPagerActivity> clazz) {
         return new PhotoPagerConfig.Builder<T>(context,clazz).create();
     }
 
@@ -174,7 +175,7 @@ public class PhotoUtil extends PhotoSetting {
      */
     @NonNull
     @CheckResult
-    public static <T> PhotoPagerConfig.Builder<T> browser(@NonNull Context context, @NonNull Class<T> t, @NonNull Class<? extends Activity> clazz) {
+    public static <T> PhotoPagerConfig.Builder<T> browser(@NonNull Context context, @NonNull Class<T> t, @NonNull Class<? extends PhotoPagerActivity> clazz) {
         return new PhotoPagerConfig.Builder<T>(context, clazz).create();
     }
 
@@ -215,7 +216,7 @@ public class PhotoUtil extends PhotoSetting {
      */
     @NonNull
     @CheckResult
-    public static <T> PhotoPagerConfig.Builder<T> browser(@NonNull Fragment fragment, @NonNull Class<T> t, @NonNull Class<? extends Activity> clazz) {
+    public static <T> PhotoPagerConfig.Builder<T> browser(@NonNull Fragment fragment, @NonNull Class<T> t, @NonNull Class<? extends PhotoPagerActivity> clazz) {
         return new PhotoPagerConfig.Builder<T>(fragment.getContext(), clazz).create();
     }
 
