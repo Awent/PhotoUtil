@@ -46,7 +46,7 @@ class SampleAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
                     if (!it.uri.isNullOrEmpty()) {
                         Glide.with(context).load(Uri.parse(it.uri)).into(holder.image)
                     } else {
-                        //通过图片裁剪或取到的path，存在app私有目录下，可直接访问，也可以先通过path查到Uri，再进行操作
+                        //通过图片裁剪或取到的path，存在app私有目录下，可直接访问
                         //val uri: Uri = UriUtils.getImageContentUri(context,it.path)
                         Glide.with(context).load(it.path).into(holder.image)
                     }

@@ -6,36 +6,43 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 
 import com.awen.image.PhotoSetting;
 import com.awen.image.R;
 import com.awen.image.photopick.bean.PhotoPickBean;
 import com.awen.image.photopick.bean.PhotoResultBean;
+import com.awen.image.photopick.listener.OnPhotoResultCallback;
 import com.awen.image.photopick.loader.MediaType;
 import com.awen.image.photopick.ui.PhotoPickActivity;
 
 /**
  * 使用方法,hao to use：<br><code>
- * new PickConfig.Builder(this)<br>
- * .pickMode(PickConfig.MODE_MULTIP_PICK)<br>
- * .maxPickSize(30)<br>
- * .spanCount(3)<br>
- * .showCamera(false) //default true<br>
- * .clipPhoto(true)   //default false<br>
- * .setOriginalPicture(true)//default false<br>
- * .showGif(true)//default true<br>
- * .build();<br>
- * </code>
+ * {@code
+ *
+ * PhotoUtil.pick(this)
+ *     .pickModeMulti()                            //多选
+ *     .pickModeSingle()                           //单选
+ *     .onlyImage()                                //只显示图片,不包含视频，默认是图片跟视频都展示,如果showCamera(true)，只会启动系统拍照，并返回图片路径
+ *     .onlyVideo()                                //只显示视频,不包含图片，默认是图片跟视频都展示,如果showCamera(true)，只会启动系统视频录制，并返回视频路径
+ *     .maxPickSize(15)                            //最多可选15张
+ *     .showCamera(false)                          //是否展示拍照icon,默认展示
+ *     .clipPhoto()                                //是否选完图片进行图片裁剪，默认是false,如果这里设置成true,就算设置了是多选也会被配置成单选
+ *     .clipPhotoWithSystem()                      //是否选完图片进行图片裁剪，默认是false,如果这里设置成true,就算设置了是多选也会被配置成单选，这里调用的是系统裁剪功能
+ *     .spanCount(4)                               //图库的列数，默认3列，这个数建议不要太大
+ *     .showGif(true)//default true                //是否展示gif
+ *     .setToolbarBackGround(@ColorRes int toolbarBackGroundId) //设置toolbar颜色
+ *     .setOnPhotoResultCallback(OnPhotoResultCallback onPhotoResultCallback) //设置数据回调，如果不想在Activity通过onActivityResult()获取回传的数据，可实现此接口
+ *     .build();
+ *
+ * }
  * Created by Awen <Awentljs@gmail.com>
  */
 public class PhotoPickConfig {
 
     public static int MODE_SINGLE_PICK = 1;//default 单选模式
-
     public static int MODE_MULTIP_PICK = 2;//多选
-
     private static int DEFAULT_SPANCOUNT = 3;//gridview列数
-
     private static boolean DEFAULT_START_CLIP = false;//默认不开启图片裁剪
 
     public final static String EXTRA_STRING_ARRAYLIST = "extra_string_array_list";
@@ -43,22 +50,6 @@ public class PhotoPickConfig {
     public final static String EXTRA_PICK_BEAN = "extra_pick_bean";
     public final static int PICK_REQUEST_CODE = 10507;
 
-    /**
-     * 关于数据的回传，新增了{@link Builder#setOnPhotoResultCallback(Builder.OnPhotoResultCallback)}接口,可实现此接口获取回传数据，当然Activity的回传方式也可用，两种方式可同时获取到数据
-     * 使用方法,hao to use：<br><code>
-     * new PickConfig.Builder(this)<br>
-     * .pickMode(PickConfig.MODE_MULTIP_PICK)<br>
-     * .maxPickSize(30)<br>
-     * .spanCount(3)<br>
-     * .showCamera(false) //default true<br>
-     * .clipPhoto(true)   //default false<br>
-     * .setOriginalPicture(true)//default false<br>
-     * .showGif(true)//default true<br>
-     * .setOnPhotoResultCallback(OnPhotoResultCallback onPhotoResultCallback)
-     * .build();<br>
-     * </code>
-     * Created by Awen <Awentljs@gmail.com>
-     */
     private PhotoPickConfig(Activity context, PhotoPickConfig.Builder builder) {
         if (builder.pickBean == null) {
             throw new NullPointerException("builder#pickBean is null");
@@ -77,10 +68,7 @@ public class PhotoPickConfig {
         private Activity context;
         private PhotoPickBean pickBean;
 
-        public Builder(Context context) {
-            if (context == null) {
-                throw new NullPointerException("context is null");
-            }
+        public Builder(@NonNull Context context) {
             if (!(context instanceof Activity)) {
                 throw new NullPointerException("context must is activity");
             }
@@ -273,7 +261,7 @@ public class PhotoPickConfig {
             return this;
         }
 
-        public PhotoPickConfig.Builder setPhotoPickBean(PhotoPickBean bean) {
+        public PhotoPickConfig.Builder setPhotoPickBean(@NonNull PhotoPickBean bean) {
             this.pickBean = bean;
             return this;
         }
@@ -286,9 +274,6 @@ public class PhotoPickConfig {
             return new PhotoPickConfig(context, this);
         }
 
-        public interface OnPhotoResultCallback {
-            void onResult(PhotoResultBean result);
-        }
     }
 
 }

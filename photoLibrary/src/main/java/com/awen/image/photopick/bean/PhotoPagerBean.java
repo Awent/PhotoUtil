@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.awen.image.photopick.controller.PhotoPagerConfig;
+import com.awen.image.photopick.listener.OnPhotoSaveCallback;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class PhotoPagerBean implements Parcelable {
 
     private int errorResId;//加载图片异常展示的图片，仅支持DrawableRes
 
-    private PhotoPagerConfig.Builder.OnPhotoSaveCallback onPhotoSaveCallback;
+    private OnPhotoSaveCallback onPhotoSaveCallback;
 
     public PhotoPagerBean() {
     }
@@ -199,11 +200,11 @@ public class PhotoPagerBean implements Parcelable {
         isOpenDownAnimate = openDownAnimate;
     }
 
-    public PhotoPagerConfig.Builder.OnPhotoSaveCallback getOnPhotoSaveCallback() {
+    public OnPhotoSaveCallback getOnPhotoSaveCallback() {
         return onPhotoSaveCallback;
     }
 
-    public void setOnPhotoSaveCallback(PhotoPagerConfig.Builder.OnPhotoSaveCallback onPhotoSaveCallback) {
+    public void setOnPhotoSaveCallback(OnPhotoSaveCallback onPhotoSaveCallback) {
         this.onPhotoSaveCallback = onPhotoSaveCallback;
     }
 }

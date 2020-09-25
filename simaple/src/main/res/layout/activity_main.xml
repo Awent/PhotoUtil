@@ -83,5 +83,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="实际开发常用写法（查看网络大图）" />
+
+        <Button
+            android:id="@+id/button11"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相机-拍照（单独调用相机）" />
+
+        <Button
+            android:id="@+id/button12"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相机-拍照并裁剪（单独调用相机）" />
+
+        <Button
+            android:id="@+id/button13"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相机-系统录像（单独调用相机）" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

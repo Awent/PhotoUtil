@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.awen.image.photopick.controller.PhotoPickConfig;
+import com.awen.image.photopick.listener.OnPhotoResultCallback;
 
 /**
  * Created by Awen <Awentljs@gmail.com>.
@@ -19,7 +20,7 @@ public class PhotoPickBean implements Parcelable {
     private boolean originalPicture;//是否选择的是原图
     private boolean showGif;//是否展示gif图片
     private int mediaType;//默认0，显示所有图片跟视频，1：只显示图片，2：只显示视频
-    private PhotoPickConfig.Builder.OnPhotoResultCallback onPhotoResultCallback;
+    private OnPhotoResultCallback onPhotoResultCallback;
 
     public PhotoPickBean(){}
 
@@ -122,11 +123,11 @@ public class PhotoPickBean implements Parcelable {
         this.showGif = showGif;
     }
 
-    public PhotoPickConfig.Builder.OnPhotoResultCallback getOnPhotoResultCallback() {
+    public OnPhotoResultCallback getOnPhotoResultCallback() {
         return onPhotoResultCallback;
     }
 
-    public void setOnPhotoResultCallback(PhotoPickConfig.Builder.OnPhotoResultCallback onPhotoResultCallback) {
+    public void setOnPhotoResultCallback(OnPhotoResultCallback onPhotoResultCallback) {
         this.onPhotoResultCallback = onPhotoResultCallback;
     }
 

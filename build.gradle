@@ -25,9 +25,9 @@ allprojects {
 
 ext {
     android = [
-            compileSdkVersion : 29,        //根据自己项目的来配置
+            compileSdkVersion : 30,        //根据自己项目的来配置
             buildToolsVersion : '29.0.3',  //根据自己项目的来配置
-            targetSdkVersion  : 29,        //根据自己项目的来配置
+            targetSdkVersion  : 30,        //根据自己项目的来配置
             androidxVersion    : '1.0.0',  //android support version
             frescoVersion     : '2.2.0'   //fresco的版本，可自行修改
     ]

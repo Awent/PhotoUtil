@@ -26,6 +26,7 @@ import com.awen.image.photopick.bean.PhotoPickBean;
 import com.awen.image.photopick.bean.PhotoResultBean;
 import com.awen.image.photopick.controller.PhotoPickConfig;
 import com.awen.image.photopick.controller.PhotoPreviewConfig;
+import com.awen.image.photopick.listener.OnPhotoResultCallback;
 import com.awen.image.photopick.loader.MediaStoreHelper;
 import com.awen.image.photopick.loader.MediaType;
 import com.awen.image.photopick.util.PermissionUtil;
@@ -40,15 +41,26 @@ import kr.co.namee.permissiongen.PermissionSuccess;
 
 /**
  * 图片选择器<br>
- * 使用方法：<br><code>
- * new PickConfig.Builder(this)<br>
- * .pickMode(PickConfig.MODE_MULTIP_PICK)<br>
- * .maxPickSize(30)<br>
- * .spanCount(3)<br>
- * .showCamera(false) //default true<br>
- * .clipPhoto()   //default false<br>
- * .build();<br>
- * </code>
+ *可以这样使用:
+ *
+ * {@code
+ *
+ * PhotoUtil.pick(this)
+ *     .pickModeMulti()                            //多选
+ *     .pickModeSingle()                           //单选
+ *     .onlyImage()                                //只显示图片,不包含视频，默认是图片跟视频都展示,如果showCamera(true)，只会启动系统拍照，并返回图片路径
+ *     .onlyVideo()                                //只显示视频,不包含图片，默认是图片跟视频都展示,如果showCamera(true)，只会启动系统视频录制，并返回视频路径
+ *     .maxPickSize(15)                            //最多可选15张
+ *     .showCamera(false)                          //是否展示拍照icon,默认展示
+ *     .clipPhoto()                                //是否选完图片进行图片裁剪，默认是false,如果这里设置成true,就算设置了是多选也会被配置成单选
+ *     .clipPhotoWithSystem()                      //是否选完图片进行图片裁剪，默认是false,如果这里设置成true,就算设置了是多选也会被配置成单选，这里调用的是系统裁剪功能
+ *     .spanCount(4)                               //图库的列数，默认3列，这个数建议不要太大
+ *     .showGif(true)//default true                //是否展示gif
+ *     .setToolbarBackGround(@ColorRes int toolbarBackGroundId) //设置toolbar颜色
+ *     .setOnPhotoResultCallback(OnPhotoResultCallback onPhotoResultCallback) //设置数据回调，如果不想在Activity通过onActivityResult()获取回传的数据，可实现此接口
+ *     .build();
+ *
+ * }
  * Created by Awen <Awentljs@gmail.com>
  */
 public class PhotoPickActivity extends ImageBaseActivity implements CameraProxy.OnCameraProxyCallBack, PhotoPickAdapter.OnUpdateListener {
@@ -60,7 +72,7 @@ public class PhotoPickActivity extends ImageBaseActivity implements CameraProxy.
     private PhotoGalleryAdapter galleryAdapter;
     private PhotoPickAdapter adapter;
     private PhotoPickBean pickBean;
-    private static PhotoPickConfig.Builder.OnPhotoResultCallback onPhotoResultCallback;
+    private static OnPhotoResultCallback onPhotoResultCallback;
     private CameraProxy cameraProxy;
 
     @Override
@@ -322,7 +334,7 @@ public class PhotoPickActivity extends ImageBaseActivity implements CameraProxy.
         PermissionGen.needPermission(this, REQUEST_CODE_PERMISSION_CAMERA, Manifest.permission.CAMERA);
     }
 
-    public static void setOnPhotoResultCallback(PhotoPickConfig.Builder.OnPhotoResultCallback onPhotoResultCallback) {
+    public static void setOnPhotoResultCallback(OnPhotoResultCallback onPhotoResultCallback) {
         PhotoPickActivity.onPhotoResultCallback = onPhotoResultCallback;
     }
 

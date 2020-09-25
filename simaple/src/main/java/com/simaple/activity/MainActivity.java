@@ -10,19 +10,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.awen.image.PhotoUtil;
 import com.awen.image.photopick.bean.Photo;
 import com.awen.image.photopick.bean.PhotoResultBean;
+import com.awen.image.photopick.controller.CameraBuilder;
 import com.awen.image.photopick.controller.PhotoPagerConfig;
 import com.awen.image.photopick.controller.PhotoPickConfig;
 import com.awen.image.photopick.controller.PhotoPreviewConfig;
+import com.awen.image.photopick.listener.OnItemCallBack;
+import com.awen.image.photopick.listener.OnPhotoResultCallback;
+import com.awen.image.photopick.listener.OnPhotoSaveCallback;
 import com.awen.image.photopick.ui.PhotoPagerActivity;
 import com.simaple.ImageProvider;
 import com.simaple.bean.MyPhotoBean;
 import com.simaple.R;
 import com.simaple.bean.UserBean;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button8).setOnClickListener(this);
         findViewById(R.id.button9).setOnClickListener(this);
         findViewById(R.id.button10).setOnClickListener(this);
+        findViewById(R.id.button11).setOnClickListener(this);
+        findViewById(R.id.button12).setOnClickListener(this);
+        findViewById(R.id.button13).setOnClickListener(this);
     }
 
     private void startAc(ArrayList<Photo> list) {
@@ -71,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .showCamera(false)
                             .setToolbarBackGround(R.color.colorAccent)
 //                        .showGif(false)
-                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                                 @Override
-                                public void onResult(PhotoResultBean result) {
+                                public void onResult(@NotNull PhotoResultBean result) {
                                     startAc(result.getList());
                                 }
                             })
@@ -85,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .showCamera(false)
                             .setToolbarBackGround(R.color.colorAccent)
 //                        .showGif(false)
-                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                                 @Override
-                                public void onResult(PhotoResultBean result) {
+                                public void onResult(@NotNull PhotoResultBean result) {
                                     startAc(result.getList());
                                 }
                             })
@@ -104,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .showCamera(true)
                             .setOriginalPicture(true)//让用户可以选择原图
                             .setToolbarBackGround(R.color.colorPrimary)
-                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                                 @Override
-                                public void onResult(PhotoResultBean result) {
+                                public void onResult(@NotNull PhotoResultBean result) {
                                     Log.e("MainActivity", "result = " + result.getPhotoLists().size());
                                     Log.e("MainActivity", "result photos= " + result.getList().size());
                                     startAc(result.getList());
@@ -122,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .showCamera(true)
                             .setOriginalPicture(true)//让用户可以选择原图
                             .setToolbarBackGround(R.color.colorPrimary)
-                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                                 @Override
-                                public void onResult(PhotoResultBean result) {
+                                public void onResult(@NotNull PhotoResultBean result) {
                                     Log.e("MainActivity", "result = " + result.getPhotoLists().size());
                                     Log.e("MainActivity", "result photos= " + result.getList().size());
                                     startAc(result.getList());
@@ -139,9 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        .clipPhoto()//启动裁剪，但不是系统裁剪
                             .clipPhotoWithSystem()//启动系统裁剪功能
                             .setToolbarBackGround(R.color.navigationBarColor)
-                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                                 @Override
-                                public void onResult(PhotoResultBean result) {
+                                public void onResult(@NotNull PhotoResultBean result) {
                                     startAc(result.getList());
                                 }
                             })
@@ -151,9 +161,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        .clipPhoto()//启动裁剪，但不是系统裁剪
                             .clipPhotoWithSystem()//启动系统裁剪功能
                             .setToolbarBackGround(R.color.navigationBarColor)
-                            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+                            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                                 @Override
-                                public void onResult(PhotoResultBean result) {
+                                public void onResult(@NotNull PhotoResultBean result) {
                                     startAc(result.getList());
                                 }
                             })
@@ -167,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .setSaveImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")
-                            .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
+                            .setOnPhotoSaveCallback(new OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
                                 @Override
                                 public void onSaveImageResult(String localFilePath) {
                                     if (localFilePath != null) {
@@ -184,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .setSaveImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")
-                            .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
+                            .setOnPhotoSaveCallback(new OnPhotoSaveCallback() {//保存网络图片到本地图库的回调
                                 @Override
                                 public void onSaveImageResult(String localFilePath) {
                                     if (localFilePath != null) {
@@ -304,9 +314,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isUsePhotoUtil) {
 //                    PhotoUtil.browser(this,UserBean.User.class,CustomPhotoPageActivity.class/**或者这里传入你自定义的CustomPhotoPageActivity*/)
                     PhotoUtil.browser(this, UserBean.User.class)
-                            .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
+                            .fromList(userList, new OnItemCallBack<UserBean.User>() {
                                 @Override
-                                public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
+                                public void nextItem(@NotNull UserBean.User item, @NotNull PhotoPagerConfig.Builder<UserBean.User> builder) {
                                     //一定要在这里获取你的图片字段，然后设置进去即可
                                     builder.addSingleBigImageUrl(item.getAvatar());
                                     builder.addSingleSmallImageUrl(item.getSmallAvatar());
@@ -316,9 +326,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .build();
                 } else {
                     new PhotoPagerConfig.Builder<UserBean.User>(this)
-                            .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
+                            .fromList(userList, new OnItemCallBack<UserBean.User>() {
                                 @Override
-                                public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
+                                public void nextItem(@NotNull UserBean.User item,@NotNull  PhotoPagerConfig.Builder<UserBean.User> builder) {
                                     //一定要在这里获取你的图片字段，然后设置进去即可
                                     builder.addSingleBigImageUrl(item.getAvatar());
                                     builder.addSingleSmallImageUrl(item.getSmallAvatar());
@@ -341,6 +351,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        })
 //                        .setSaveImage(true)
 //                        .build();
+                break;
+            case R.id.button11:
+                PhotoUtil.camera(this)
+                        .setOnPhotoResultCallback(new OnPhotoResultCallback() {
+                            @Override
+                            public void onResult(@NonNull PhotoResultBean result) {
+                                startAc(result.getList());
+                            }
+                        })
+                        .build();
+                break;
+            case R.id.button12:
+                PhotoUtil.camera(this)
+//                        .clipPhoto()
+                        .clipPhotoWithSystem()
+                        .setAspectX(1) //裁剪框 X 比值
+                        .setAspectY(1) //裁剪框 Y 比值
+                        .setOutputX(400) //裁剪后输出宽度
+                        .setOutputY(400) //裁剪后输出高度
+                        .setOnPhotoResultCallback(new OnPhotoResultCallback() {
+                            @Override
+                            public void onResult(@NonNull PhotoResultBean result) {
+                                startAc(result.getList());
+                            }
+                        })
+                        .build();
+                break;
+            case R.id.button13:
+                PhotoUtil.camera(this)
+                        .takeVideo()
+//                        .setVideoMaxSize(10 * 1024 * 1024)//10M
+                        .setVideoDuration(10)//10秒,很多国产机中这个参数无效
+                        .setOnPhotoResultCallback(new OnPhotoResultCallback() {
+                            @Override
+                            public void onResult(@NonNull PhotoResultBean result) {
+                                startAc(result.getList());
+                            }
+                        })
+                        .build();
                 break;
         }
     }

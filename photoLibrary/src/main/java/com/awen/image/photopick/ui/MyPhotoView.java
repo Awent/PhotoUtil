@@ -25,7 +25,7 @@ public class MyPhotoView extends FrameLayout {
     private static final String TAG = "MyPhotoView";
     private PhotoView photoView;
     private RoundProgressBar progressBar;
-    private ImageLoadImpl imageLoad;
+    private ImageLoad imageLoad;
 
     public MyPhotoView(@NonNull Context context,
                        int position,
