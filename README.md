@@ -57,7 +57,7 @@ allprojects {
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     //图库
-    implementation 'com.github.Awent:PhotoUtil:v1.0.5'
+    implementation 'com.github.Awent:PhotoUtil:v1.0.6'
 ```
 
 
@@ -86,44 +86,18 @@ PhotoUtil.pick(this)
 - 获取图库选择了(或裁剪好)的图片地址
 
 ```
-方法一：
 PhotoUtil.pick(this)
     .pickModeMulti()
     .maxPickSize(15)
     .showCamera(true)
     .setOriginalPicture(true)//让用户可以选择原图
-    .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+    .setOnPhotoResultCallback(new OnPhotoResultCallback() {
           @Override
           public void onResult(PhotoResultBean result) {
                  Log.e("MainActivity", "result = " + result.getPhotoLists().size());
           }
     })
     .build();
-    
-    
-方法二：
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode != Activity.RESULT_OK || data == null) {
-        return;
-    }
-    switch (requestCode) {
-        case PhotoPickConfig.PICK_REQUEST_CODE:
-            //返回的图片地址集合
-            ArrayList<String> photoLists = data.getStringArrayListExtra(PhotoPickConfig.EXTRA_STRING_ARRAYLIST);
-            if (photoLists != null && !photoLists.isEmpty()) {
-                File file = new File(photoLists.get(0));//获取第一张图片
-                if (file.exists()) {
-                    //you can do something
-
-                } else {
-                    //toast error
-                }
-            }
-            break;
-    }
-}
 
 ```
 
@@ -155,11 +129,30 @@ PhotoUtil.browserCustom(this,Class<?> clazz)       //这里传入你自定义的
     .build();
 ```
 
-- 混淆
+
+- 单独调用相机进行拍照、拍照后图片裁剪，或视频录制
 
 ```
-参考simple中的proguard-rules文件
 
+PhotoUtil.camera(this)          //‘this’必须是extends FragmentActivity
+         .takeImage()           //拍照
+         .takeVideo()           //视频录像
+         .setVideoMaxSize(long) //最大视频大小
+         .setVideoDuration(long)//视频时长，很多国产机中这个参数无效
+         .clipPhoto()           //调用当前lib图片裁剪
+         .clipPhotoWithSystem() //调用系统图片裁剪
+         .setAspectX(1)         //裁剪框 X 比值
+         .setAspectY(1)         //裁剪框 Y 比值
+         .setOutputX(400)       //裁剪后输出宽度
+         .setOutputY(400)       //裁剪后输出高度
+         .setOnPhotoResultCallback(new OnPhotoResultCallback() {
+                @Override
+                public void onResult(@NonNull PhotoResultBean result) {
+                       //do something
+                       startAc(result.getList());
+                }
+          })
+         .build();
 ```
 
 - 开发中常用的查看网络大图`fromList`和`fromMap`用法介绍
@@ -177,13 +170,13 @@ Map<Integer, UserBean.User> map = new HashMap<>();  //使用fromMap
 
 java写法：
             PhotoUtil.browser(this, UserBean.User.class)
-                        .fromList(list, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() {
+                        .fromList(list, new OnItemCallBack<UserBean.User>() {
                             @Override
                             public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
                                 builder.addSingleBigImageUrl(item.getAvatar());
                             }
                         })
-                        .setOnPhotoSaveCallback(new PhotoPagerConfig.Builder.OnPhotoSaveCallback() {
+                        .setOnPhotoSaveCallback(new OnPhotoSaveCallback() {
                             @Override
                             public void onSaveImageResult(String localFilePath) {
                                 Toast(localFilePath != null ? "保存成功" : "保存失败");
@@ -211,13 +204,27 @@ kotlin写法：
             android:theme="@style/PhoAppTheme.Transparent"
             android:name=".activity.CustomPhotoPageActivity"/>
  ```
-            
+  
+  
+  - 混淆
+
+```
+参考simple中的proguard-rules文件
+
+```
  
 [更多使用方法参考点这里](https://github.com/Awent/PhotoUtil/blob/master/simaple/src/main/java/com/simaple/activity/MainActivity.java)
 
 [PhotoUtil](https://github.com/Awent/PhotoUtil/blob/master/photoLibrary/src/main/java/com/awen/image/PhotoUtil.java)
 
 [Glide图片加载进度参考](https://juejin.im/post/6847902221951041549)
+
+
+
+### v1.0.6：
+implementation 'com.github.Awent:PhotoUtil:v1.0.6'
+
+新增：单独调用相机，可拍照，拍照后裁剪，视频录像
 
 
 ### v1.0.5：
