@@ -1,28 +1,23 @@
 package com.awen.image.photopick.loader;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.awen.image.PhotoSetting;
 import com.awen.image.R;
 import com.awen.image.photopick.pro.ProgressInterceptor;
 import com.awen.image.photopick.pro.ProgressListener;
 import com.awen.image.photopick.util.AppPathUtil;
 import com.awen.image.photopick.util.CalculateUtil;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.HttpException;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -139,7 +134,9 @@ public class ImageLoadImpl implements ImageLoad {
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {
                         super.onLoadStarted(placeholder);
-                        handler.sendEmptyMessage(PROGRESS_VISIBLE);
+                        if(handler != null) {
+                            handler.sendEmptyMessage(PROGRESS_VISIBLE);
+                        }
                     }
 
                     @Override
@@ -261,10 +258,16 @@ public class ImageLoadImpl implements ImageLoad {
     @Override
     public void onDestroy() {
         removeProListener();
+        if(handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
+        }
     }
 
     private void removeProListener() {
-        handler.sendEmptyMessage(PROGRESS_GONE);
+        if(handler != null) {
+            handler.sendEmptyMessage(PROGRESS_GONE);
+        }
         ProgressInterceptor.removeListener(url);
     }
 
@@ -321,6 +324,9 @@ public class ImageLoadImpl implements ImageLoad {
     private ProgressListener progressListener = new ProgressListener() {
         @Override
         public void onLoadProgress(boolean isDone, int progress) {
+            if(handler == null){
+                return;
+            }
             Message msg = Message.obtain();
             msg.what = PROGRESS_NUM;
             msg.arg1 = progress;
@@ -329,6 +335,9 @@ public class ImageLoadImpl implements ImageLoad {
 
         @Override
         public void onLoadFailed() {
+            if(handler == null){
+                return;
+            }
             handler.sendEmptyMessage(PROGRESS_GONE);
         }
     };

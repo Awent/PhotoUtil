@@ -18,8 +18,8 @@ import kr.co.namee.permissiongen.PermissionSuccess
  * 如果自定义activity开启了下滑关闭功能，记得当前自定义activity的Theme要引用{@style/PhoAppTheme.Transparent}
  * 如下：
  * <activity
-android:theme="@style/PhoAppTheme.Transparent"
-android:name=".activity.CustomPhotoPageActivity"/>
+        android:theme="@style/PhoAppTheme.Transparent"
+        android:name=".activity.CustomPhotoPageActivity"/>
  */
 class CustomPhotoPageActivity : PhotoPagerActivity() {
     companion object {

@@ -3,7 +3,6 @@ package com.simaple.adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +10,21 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.awen.image.photopick.bean.Photo
 import com.awen.image.photopick.ui.VideoPlayActivity
-import com.awen.image.photopick.util.SDKVersionUtil
-import com.awen.image.photopick.util.UriUtils
 import com.bumptech.glide.Glide
 import com.simaple.R
 
-class SampleAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
+class SampleAdapter(mContext: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
 
+    private val context = mContext
     private val ITEM_IMAGE = 0
     private val ITEM_VIDEO = 1
-    private val context: Context = context
     private var photos = ArrayList<Photo>()
 
     fun addData(photos: ArrayList<Photo>) {
-        this.photos.clear()
-        this.photos.addAll(photos)
-        notifyDataSetChanged()
+        val lastIndex = itemCount
+        if (this.photos.addAll(photos)) {
+            notifyItemRangeInserted(lastIndex, photos.size)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

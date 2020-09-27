@@ -30,9 +30,9 @@ import com.awen.image.photopick.ui.VideoPlayActivity;
  * @see #browser(Context, Class, Class)
  * @see #browser(Fragment, Class, Class)
  * @see #browserCustom(Context, Class) //自定义查看网络大图界面
- * 
+ *
  * 3、单独启动相机：
- * @see #camera(FragmentActivity) 
+ * @see #camera(FragmentActivity)
  *
  * 以下四个方法可能是你想用的
  * @see #setToolbarBackGround(int)
@@ -111,7 +111,7 @@ public class PhotoUtil extends PhotoSetting {
             .showCamera(false)
             .setToolbarBackGround(R.color.colorAccent)
             .showGif(false)
-            .setOnPhotoResultCallback(new PhotoPickConfig.Builder.OnPhotoResultCallback() {
+            .setOnPhotoResultCallback(new OnPhotoResultCallback() {
                 @Override
                 public void onResult(PhotoResultBean result) {
 
@@ -163,7 +163,7 @@ public class PhotoUtil extends PhotoSetting {
      * {@code
      *        List<UserBean.User> userList = getUserList();                             //从网络获取数据
      *        PhotoUtil.browser(this,UserBean.User.class)                               //传入实体类
-     *                 .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() { //使用fromList循环userList
+     *                 .fromList(userList, new OnItemCallBack<UserBean.User>() {        //使用fromList循环userList
      *                      @Override
      *                      public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
      *                         //一定要在这里获取你的图片字段，然后设置进去即可
@@ -217,8 +217,8 @@ public class PhotoUtil extends PhotoSetting {
      例子：
      * {@code
      *        List<UserBean.User> userList = getUserList();                             //从网络获取数据
-     *        PhotoUtil.browser(this,UserBean.User.class,CustomPhotoPageActivity.class) //跳到自定义查看网络大图界面
-     *                 .fromList(userList, new PhotoPagerConfig.Builder.OnItemCallBack<UserBean.User>() { //使用fromList循环userList
+     *        PhotoUtil.browser(this, UserBean.User.class, CustomPhotoPageActivity.class) //跳到自定义查看网络大图界面
+     *                 .fromList(userList, new OnItemCallBack<UserBean.User>() { //使用fromList循环userList
      *                      @Override
      *                      public void nextItem(UserBean.User item, PhotoPagerConfig.Builder<UserBean.User> builder) {
      *                         //一定要在这里获取你的图片字段，然后设置进去即可
@@ -342,6 +342,10 @@ public class PhotoUtil extends PhotoSetting {
      */
     public static CameraBuilder camera(FragmentActivity context){
         return CameraBuilder.create(context);
+    }
+
+    public static CameraBuilder camera(Fragment fragment){
+        return CameraBuilder.create(fragment.getActivity());
     }
 
     private static Context getFragmentContext(@NonNull Fragment fragment){

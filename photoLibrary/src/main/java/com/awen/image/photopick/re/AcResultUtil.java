@@ -2,6 +2,8 @@ package com.awen.image.photopick.re;
 
 
 import android.content.Intent;
+
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -18,7 +20,7 @@ public class AcResultUtil {
     }
 
     public void startAcResult(Intent intent, int requestCode) {
-        fragment.setAcResult(intent,requestCode);
+        fragment.setAcResult(intent, requestCode);
     }
 
     public ActivityResultFragment getFragment() {
@@ -39,7 +41,23 @@ public class AcResultUtil {
         return fragment;
     }
 
+    public void removeResultFragment(FragmentActivity activity) {
+        Fragment fragment = findResultFragment(activity);
+        if (fragment != null) {
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            fragmentManager
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commitAllowingStateLoss();
+            fragmentManager.executePendingTransactions();
+        }
+    }
+
     private ActivityResultFragment findResultFragment(FragmentActivity activity) {
-        return (ActivityResultFragment) activity.getSupportFragmentManager().findFragmentByTag(TAG);
+        Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(TAG);
+        if (fragment != null) {
+            return (ActivityResultFragment) fragment;
+        }
+        return null;
     }
 }

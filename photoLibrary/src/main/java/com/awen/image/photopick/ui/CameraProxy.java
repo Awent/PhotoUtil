@@ -177,6 +177,13 @@ public class CameraProxy {
         } else {
             Toast.makeText(context, R.string.unable_find_pic, Toast.LENGTH_LONG).show();
         }
+        removeFragment();
+    }
+
+    private void removeFragment(){
+        if(acResultUtil != null){
+            acResultUtil.removeResultFragment(context);
+        }
     }
 
     private void findPhotoOrVideo(Uri uri, int type) {
@@ -233,6 +240,7 @@ public class CameraProxy {
                 context.setResult(Activity.RESULT_OK, intent);
 //                Toast.makeText(this, "已返回的拍照图片地址 = \n" + picturePath, Toast.LENGTH_LONG).show();
                 callBack.onPhotoResultBack(pic, list, false);
+                removeFragment();
             }
         }
     }

@@ -8,7 +8,6 @@ import com.awen.image.photopick.bean.PhotoResultBean;
 import com.awen.image.photopick.listener.OnPhotoResultCallback;
 import com.awen.image.photopick.loader.MediaType;
 import com.awen.image.photopick.ui.CameraProxy;
-
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * 1、拍照
  * 2、拍照后进行裁剪
  * 3、视频录制
- *
+ * <p>
  * 1、拍照
  * {@code
  *                PhotoUtil.camera(this)
@@ -36,10 +35,10 @@ import java.util.ArrayList;
  *                PhotoUtil.camera(this)
  * //                      .clipPhoto()
  *                         .clipPhotoWithSystem() //系统裁剪
- *                         .setAspectX(1) //裁剪框 X 比值
- *                         .setAspectY(1) //裁剪框 Y 比值
- *                         .setOutputX(400) //裁剪后输出宽度
- *                         .setOutputY(400) //裁剪后输出高度
+ *                         .setAspectX(1) //裁剪框 X 比值，不设置会有默认
+ *                         .setAspectY(1) //裁剪框 Y 比值，不设置会有默认
+ *                         .setOutputX(400) //裁剪后输出宽度，不设置会有默认
+ *                         .setOutputY(400) //裁剪后输出高度，不设置会有默认
  *                         .setOnPhotoResultCallback(new OnPhotoResultCallback() {
  *                             @Override
  *                             public void onResult(@NonNull PhotoResultBean result) {
@@ -54,8 +53,8 @@ import java.util.ArrayList;
  * {@code
  *                PhotoUtil.camera(this)
  *                         .takeVideo()
- * //                      .setVideoMaxSize(10 * 1024 * 1024)//10M
- *                         .setVideoDuration(10)//10秒,很多国产机中这个参数无效
+ * //                      .setVideoMaxSize(10 * 1024 * 1024)   //10M
+ *                         .setVideoDuration(10)                //10秒,很多国产机中这个参数无效
  *                         .setOnPhotoResultCallback(new OnPhotoResultCallback() {
  *                             @Override
  *                             public void onResult(@NonNull PhotoResultBean result) {
@@ -65,17 +64,44 @@ import java.util.ArrayList;
  *                         .build();
  * }
  */
-public class CameraBuilder implements CameraProxy.OnCameraProxyCallBack {
+public class CameraBuilder {
 
     private CameraOptions options;
     private CameraProxy cameraProxy;
     private OnPhotoResultCallback onPhotoResultCallback;
 
-    private CameraBuilder(FragmentActivity context) {
+    private CameraBuilder(final FragmentActivity context) {
         PhotoSetting.init(context);
         options = new CameraOptions();
-        cameraProxy = new CameraProxy(context, this, options, true);
         takeImage();
+        CameraProxy.OnCameraProxyCallBack cameraProxyCallBack = new CameraProxy.OnCameraProxyCallBack() {
+            @Override
+            public void onPhotoResultBack(ArrayList<String> photos, ArrayList<Photo> list, boolean originalPicture) {
+                PhotoResultBean bean = new PhotoResultBean();
+                bean.setOriginalPicture(originalPicture);
+                bean.setPhotoLists(photos);
+                bean.setList(list);
+                if (onPhotoResultCallback != null) {
+                    onPhotoResultCallback.onResult(bean);
+                }
+            }
+
+            @Override
+            public int getMediaType() {
+                return options.getMediaType();
+            }
+
+            @Override
+            public boolean isClipPhoto() {
+                return options.isClipPhoto();
+            }
+
+            @Override
+            public boolean isSystemClipPhoto() {
+                return options.isSystemClipPhoto();
+            }
+        };
+        cameraProxy = new CameraProxy(context, cameraProxyCallBack, options, true);
     }
 
     public static CameraBuilder create(FragmentActivity context) {
@@ -132,6 +158,7 @@ public class CameraBuilder implements CameraProxy.OnCameraProxyCallBack {
 
     /**
      * 拍照，默认
+     *
      * @return
      */
     public CameraBuilder takeImage() {
@@ -141,6 +168,7 @@ public class CameraBuilder implements CameraProxy.OnCameraProxyCallBack {
 
     /**
      * 视频录像
+     *
      * @return
      */
     public CameraBuilder takeVideo() {
@@ -161,29 +189,5 @@ public class CameraBuilder implements CameraProxy.OnCameraProxyCallBack {
         }
     }
 
-    @Override
-    public void onPhotoResultBack(ArrayList<String> photos, ArrayList<Photo> list, boolean originalPicture) {
-        PhotoResultBean bean = new PhotoResultBean();
-        bean.setOriginalPicture(originalPicture);
-        bean.setPhotoLists(photos);
-        bean.setList(list);
-        if (onPhotoResultCallback != null) {
-            onPhotoResultCallback.onResult(bean);
-        }
-    }
 
-    @Override
-    public int getMediaType() {
-        return options.getMediaType();
-    }
-
-    @Override
-    public boolean isClipPhoto() {
-        return options.isClipPhoto();
-    }
-
-    @Override
-    public boolean isSystemClipPhoto() {
-        return options.isSystemClipPhoto();
-    }
 }

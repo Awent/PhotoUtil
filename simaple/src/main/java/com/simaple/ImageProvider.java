@@ -61,4 +61,37 @@ public class ImageProvider {
         list.add("https://wx3.sinaimg.cn/mw690/006qDXTKgy1fx8q6x78hkj30c80953yt.jpg");
         return list;
     }
+
+    public static List<String> getBigImgList(){
+        List<String> list = new ArrayList<>();
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG37.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG38.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG39.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG40.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG41.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG42.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG43.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG44.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG45.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG46.jpeg");
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG47.jpeg");
+        return list;
+    }
+
+    public static List<String> getSmallImgList(){
+        String scale = "?imageView2/0/w/200";
+        List<String> list = new ArrayList<>();
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG37.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG38.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG39.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG40.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG41.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG42.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG43.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG44.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG45.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG46.jpeg" + scale);
+        list.add("https://cdn.mango218.com/files/imgs/WechatIMG47.jpeg" + scale);
+        return list;
+    }
 }

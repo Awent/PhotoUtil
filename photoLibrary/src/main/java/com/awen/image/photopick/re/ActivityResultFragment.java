@@ -8,15 +8,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.awen.image.R;
-import com.awen.image.photopick.loader.MediaType;
-import com.awen.image.photopick.util.PermissionUtil;
-
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
-
 import static com.awen.image.PhotoSetting.DEBUG;
 
 /**
@@ -29,7 +23,6 @@ public class ActivityResultFragment extends Fragment {
     private OnActivityResultCallBack callBack;
     private Intent intent;
     private int requestCode;
-    private boolean hasPermission;
 
     public void setCallBack(OnActivityResultCallBack callBack) {
         this.callBack = callBack;
@@ -38,13 +31,7 @@ public class ActivityResultFragment extends Fragment {
     public void setAcResult(Intent intent, int requestCode) {
         this.intent = intent;
         this.requestCode = requestCode;
-
-        if(hasPermission){
-            startActivityForResult(intent,requestCode);
-        }
-        if (DEBUG) {
-            Log.e(TAG, "startAcForResult requestCode = " + requestCode);
-        }
+        PermissionGen.needPermission(this, REQUEST_CODE_PERMISSION_CAMERA, Manifest.permission.CAMERA);
     }
 
     public ActivityResultFragment() {
@@ -54,10 +41,6 @@ public class ActivityResultFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        PermissionGen.needPermission(this, REQUEST_CODE_PERMISSION_CAMERA, Manifest.permission.CAMERA);
-        if (DEBUG) {
-            Log.e(TAG, "---onCreate--- ");
-        }
     }
 
     @Override
@@ -84,7 +67,6 @@ public class ActivityResultFragment extends Fragment {
         if (DEBUG) {
             Log.e(TAG, "--selectPicFromCameraSuccess--");
         }
-        hasPermission = true;
         if (intent == null) {
             return;
         }
@@ -103,4 +85,5 @@ public class ActivityResultFragment extends Fragment {
             callBack.requestCameraPermissionFailed();
         }
     }
+
 }
