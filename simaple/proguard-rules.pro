@@ -15,12 +15,20 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class androidx.* {*;}
+-keep class com.google.android.material.* {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
+
 #保持 Parcelable 不被混淆
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
-# app javabean classes
--keep class com.awen.image.photopick.bean.** { *; }
+# PhotoUtil
+-keep class com.awen.image.** { *; }
 
 ##---------------6.0权限 start----------------------------------
 -keepattributes Annotation
@@ -30,19 +38,36 @@
 }
 ##---------------6.0权限 end----------------------------------
 
-##---------------fresco start----------------------------------
-# Keep our interfaces so they can be used by other ProGuard rules.
-# See http://sourceforge.net/p/proguard/bugs/466/
--keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
-
-# Do not strip any method/class that is annotated with @DoNotStrip
--keep @com.facebook.common.internal.DoNotStrip class *
--keepclassmembers class * {
-    @com.facebook.common.internal.DoNotStrip *;
+##---------------Glide start----------------------------------
+-keep class com.bumptech.glide.** {*;}
+-keep public class * implements com.bumptech.glide.module.AppGlideModule
+-keep public class * implements com.bumptech.glide.module.LibraryGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
 }
+##---------------Glide end----------------------------------
 
-# Keep native methods
--keepclassmembers class * {
-    native <methods>;
-}
-##---------------fresco end----------------------------------
+#-------------- okhttp3 start-------------
+# OkHttp3
+# https://github.com/square/okhttp
+# okhttp
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**
+
+# okhttp 3
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# Okio
+-dontwarn com.squareup.**
+-dontwarn okio.**
+-keep public class org.codehaus.** { *; }
+-keep public class java.nio.** { *; }
+#----------okhttp end--------------
