@@ -15,8 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep class androidx.* {*;}
--keep class com.google.android.material.* {*;}
+-keep class androidx.** {*;}
+-keep class com.google.android.material.** {*;}
 -keep public class * extends androidx.**
 -keep interface androidx.** {*;}
 -dontwarn com.google.android.material.**
