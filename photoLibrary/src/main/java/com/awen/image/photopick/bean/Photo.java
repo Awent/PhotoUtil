@@ -195,5 +195,20 @@ public class Photo implements Parcelable {
         return mimeType != null && mimeType.equals("image/webp");
     }
 
-
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "id=" + id +
+                ", uri='" + uri + '\'' +
+                ", path='" + path + '\'' +
+                ", size=" + size +
+                ", isLongPhoto=" + isLongPhoto +
+                ", width=" + width +
+                ", height=" + height +
+                ", mimeType='" + mimeType + '\'' +
+                ", dateAdd=" + dateAdd +
+                ", dateModified=" + dateModified +
+                ", duration=" + duration +
+                '}';
+    }
 }

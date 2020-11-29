@@ -3,6 +3,7 @@ package com.awen.image.photopick.re;
 
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -10,11 +11,11 @@ import androidx.fragment.app.FragmentManager;
 /**
  * 用于处理activity#onActivityResult回调
  */
-public class AcResultUtil {
+public class AcResultProxy {
     private static final String TAG = "AcResultUtil";
     private ActivityResultFragment fragment;
 
-    public AcResultUtil(FragmentActivity activity, OnActivityResultCallBack callBack) {
+    public AcResultProxy(FragmentActivity activity, OnActivityResultCallBack callBack) {
         fragment = getResultFragment(activity);
         fragment.setCallBack(callBack);
     }
@@ -53,6 +54,7 @@ public class AcResultUtil {
         }
     }
 
+    @Nullable
     private ActivityResultFragment findResultFragment(FragmentActivity activity) {
         Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(TAG);
         if (fragment != null) {

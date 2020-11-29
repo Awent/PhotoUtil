@@ -1,6 +1,7 @@
 package com.awen.image.photopick.util;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +11,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.awen.image.PhotoSetting;
+import com.awen.image.PhotoUtil;
+import com.awen.image.R;
+import com.awen.image.photopick.listener.OnPhotoSaveCallback;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -298,6 +304,48 @@ public class ImageUtils {
             return "image/jpeg";
         }
         return "image/jpeg";
+    }
+
+    public static void saveToLocal(String bigImgUrl, String saveImageLocalPath, OnPhotoSaveCallback onPhotoSaveCallback){
+        //保存图片到本地
+        String fileName = AppPathUtil.getRandomFileName(bigImgUrl);
+        String filePath = (PhotoSetting.getSaveImageLocalPath() == null ? AppPathUtil.getBigBitmapCachePath() : PhotoSetting.getSaveImageLocalPath());
+        if (saveImageLocalPath != null) {
+            filePath = saveImageLocalPath;
+        }
+        if(PhotoUtil.DEBUG) {
+            Log.e("TAG", "save image fileName = " + fileName);
+            Log.e("TAG", "save image path = " + filePath);
+        }
+        boolean state = false;
+        try {
+            String localCachePath = AppPathUtil.getGlideLocalCachePath(bigImgUrl);
+            byte[] b = FileUtil.getImageStream(localCachePath);
+            if (b != null) {
+                if (SDKVersionUtil.isAndroid_Q()) {
+                    Uri uri = ImageUtils.saveImageQ(fileName, b);
+                    if (uri != null) {
+                        //默认保存在公共Pictures目录下
+                        if (AppPathUtil.isSdCardExit()) {
+                            filePath = "/storage/emulated/0/Pictures/" + fileName;
+                        }
+                        state = true;
+                    }
+                } else {
+                    filePath = filePath + fileName;
+                    state = ImageUtils.saveImageToGallery(filePath, fileName, b);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (onPhotoSaveCallback != null) {
+            onPhotoSaveCallback.onSaveImageResult(state ? filePath : null);
+        } else {
+            Context context = PhotoUtil.getContext();
+            String tips = state ? context.getString(R.string.save_image_aready, filePath) : context.getString(R.string.saved_faild);
+            Toast.makeText(context, tips, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

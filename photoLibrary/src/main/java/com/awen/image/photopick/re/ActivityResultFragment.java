@@ -67,13 +67,13 @@ public class ActivityResultFragment extends Fragment {
         if (DEBUG) {
             Log.e(TAG, "--selectPicFromCameraSuccess--");
         }
+        if (callBack != null) {
+            callBack.requestCameraPermissionSuccess();
+        }
         if (intent == null) {
             return;
         }
         startActivityForResult(intent, requestCode);
-        if (callBack != null) {
-            callBack.requestCameraPermissionSuccess();
-        }
     }
 
     @PermissionFail(requestCode = REQUEST_CODE_PERMISSION_CAMERA)

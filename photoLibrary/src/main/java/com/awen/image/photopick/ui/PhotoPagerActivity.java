@@ -2,39 +2,27 @@ package com.awen.image.photopick.ui;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
-
-import com.awen.image.PhotoSetting;
 import com.awen.image.ImageBaseActivity;
 import com.awen.image.R;
 import com.awen.image.photopick.adapter.SamplePagerAdapter;
 import com.awen.image.photopick.listener.OnPhotoSaveCallback;
 import com.awen.image.photopick.pro.ProgressInterceptor;
 import com.awen.image.photopick.bean.PhotoPagerBean;
-import com.awen.image.photopick.util.AppPathUtil;
-import com.awen.image.photopick.util.FileUtil;
 import com.awen.image.photopick.util.ImageUtils;
 import com.awen.image.photopick.util.PermissionUtil;
 import com.awen.image.photopick.controller.PhotoPagerConfig;
-import com.awen.image.photopick.util.SDKVersionUtil;
 import com.awen.image.photopick.widget.ScalePhotoView;
 import com.github.chrisbanes.photoview.OnViewTapListener;
-
-import java.io.File;
-
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
@@ -288,7 +276,6 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        Log.e(TAG, "onRequestPermissionsResult");
         PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
@@ -298,49 +285,13 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
      */
     @PermissionSuccess(requestCode = REQUEST_CODE)
     public void startPermissionSDSuccess() {//获取读写sd卡权限成功回调
-//        Log.e(TAG, "startPermissionSDSuccess");
         //保存图片到本地
         String bigImgUrl = photoPagerBean.getBigImgUrls().get(currentPosition);
-        String fileName = AppPathUtil.getRandomFileName(bigImgUrl);
-        String filePath = (PhotoSetting.getSaveImageLocalPath() == null ? AppPathUtil.getBigBitmapCachePath() : PhotoSetting.getSaveImageLocalPath());
-        if (saveImageLocalPath != null) {
-            filePath = saveImageLocalPath;
-        }
-//        Log.e(TAG, "save image fileName = " + fileName);
-//        Log.e(TAG, "save image path = " + filePath);
-        boolean state = false;
-        try {
-            String localCachePath = AppPathUtil.getGlideLocalCachePath(bigImgUrl);
-            byte[] b = FileUtil.getImageStream(localCachePath);
-            if (b != null) {
-                if (SDKVersionUtil.isAndroid_Q()) {
-                    Uri uri = ImageUtils.saveImageQ(fileName, b);
-                    if (uri != null) {
-                        //默认保存在公共Pictures目录下
-                        if (AppPathUtil.isSdCardExit()) {
-                            filePath = "/storage/emulated/0/Pictures/" + fileName;
-                        }
-                        state = true;
-                    }
-                } else {
-                    state = ImageUtils.saveImageToGallery(filePath, fileName, b);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (onPhotoSaveCallback != null) {
-            onPhotoSaveCallback.onSaveImageResult(state ? filePath : null);
-        } else {
-            String tips = state ? getString(R.string.save_image_aready, filePath) : getString(R.string.saved_faild);
-            Toast.makeText(PhotoPagerActivity.this, tips, Toast.LENGTH_SHORT).show();
-        }
+        ImageUtils.saveToLocal(bigImgUrl,saveImageLocalPath,onPhotoSaveCallback);
     }
 
     @PermissionFail(requestCode = REQUEST_CODE)
     public void startPermissionSDFaild() {
-//        Log.e(TAG, "startPermissionSDFaild");
         if (!isFinishing()) {
             new android.app.AlertDialog.Builder(this)
                     .setMessage(getString(R.string.permission_tip_SD))
@@ -376,7 +327,7 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
     /**
      * 设置是否可保存图片
      *
-     * @param saveImage
+     * @param saveImage true:可以保存，false：不可保存
      */
     public void setSaveImage(boolean saveImage) {
         this.saveImage = saveImage;
@@ -385,7 +336,7 @@ public class PhotoPagerActivity extends ImageBaseActivity implements ViewPager.O
     /**
      * 只在android Q版本以下才会生效
      *
-     * @param saveImageLocalPath
+     * @param saveImageLocalPath sd卡路径
      */
     public void setSaveImageLocalPath(String saveImageLocalPath) {
         this.saveImageLocalPath = saveImageLocalPath;

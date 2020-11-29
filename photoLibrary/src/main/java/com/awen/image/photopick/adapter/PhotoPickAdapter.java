@@ -3,6 +3,8 @@ package com.awen.image.photopick.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.awen.image.PhotoUtil;
 import com.awen.image.R;
 import com.awen.image.photopick.bean.Photo;
 import com.awen.image.photopick.bean.PhotoPickBean;
@@ -123,7 +126,6 @@ public class PhotoPickAdapter extends RecyclerView.Adapter<PhotoPickAdapter.View
                 } else {
                     Glide.with(context).load(uri).error(R.mipmap.failure_image).transition(withCrossFade()).into(imageView);
                 }
-
             }
         }
 

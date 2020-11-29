@@ -28,28 +28,28 @@ import java.util.Map;
  * {@code
  * <p>
  * PhotoUtil.browser(this, Class<T> t)
- * .fromList(Iterable<? extends T> iterable, OnItemCallBack<T> listener)//接收集合数据并提供内循环返回所有item
- * .fromMap(Map<?, T> map, OnItemCallBack<T> listener)                  //接收集合数据并提供内循环返回所有item
- * .setBigImageUrls(ImageProvider.getImageUrls())      //大图片url,可以是sd卡res，asset，网络图片.
- * .setSmallImageUrls(ArrayList<String> smallImgUrls)  //小图图片的url,用于大图展示前展示的
- * .addSingleBigImageUrl(String bigImageUrl)           //一张一张大图add进ArrayList
- * .addSingleSmallImageUrl(String smallImageUrl)       //一张一张小图add进ArrayList
- * .setSaveImage(true)                                 //开启保存图片，默认false
- * .setPosition(2)                                     //默认展示第2张图片
- * .setSaveImageLocalPath("Android/SD/xxx/xxx")        //这里是你想保存大图片到手机的地址,可在手机图库看到，不传会有默认地址，android Q会忽略此参数
- * .setBundle(bundle)                                  //传递自己的数据，如果数据中包含java bean，必须实现Parcelable接口
- * .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
- * .setOnPhotoSaveCallback(new OnPhotoSaveCallback()   //保存网络图片到本地图库的回调,保存成功则返回本地图片路径，失败返回null
- * .error(@DrawableRes int resourceId)                 //网络图片加载失败时显示的错误图片,不传会有默认的
- * .build();
+ *          .fromList(Iterable<? extends T> iterable, OnItemCallBack<T> listener)//接收集合数据并提供内循环返回所有item
+ *          .fromMap(Map<?, T> map, OnItemCallBack<T> listener)                  //接收集合数据并提供内循环返回所有item
+ *          .setBigImageUrls(ImageProvider.getImageUrls())      //大图片url,可以是sd卡res，asset，网络图片.
+ *          .setSmallImageUrls(ArrayList<String> smallImgUrls)  //小图图片的url,用于大图展示前展示的
+ *          .addSingleBigImageUrl(String bigImageUrl)           //一张一张大图add进ArrayList
+ *          .addSingleSmallImageUrl(String smallImageUrl)       //一张一张小图add进ArrayList
+ *          .setSaveImage(true)                                 //开启保存图片，默认false
+ *          .setPosition(2)                                     //默认展示第2张图片
+ *          .setSaveImageLocalPath("Android/SD/xxx/xxx")        //这里是你想保存大图片到手机的地址,可在手机图库看到，不传会有默认地址，android Q会忽略此参数
+ *          .setBundle(bundle)                                  //传递自己的数据，如果数据中包含java bean，必须实现Parcelable接口
+ *          .setOpenDownAnimate(false)                          //是否开启下滑关闭activity，默认开启。类似微信的图片浏览，可下滑关闭一样
+ *          .setOnPhotoSaveCallback(new OnPhotoSaveCallback()   //保存网络图片到本地图库的回调,保存成功则返回本地图片路径，失败返回null
+ *          .error(@DrawableRes int resourceId)                 //网络图片加载失败时显示的错误图片,不传会有默认的
+ *          .build();
  * <p>
  * 自定义界面：
  * <p>
  * PhotoUtil.browserCustom(this,Class<? extends PhotoPagerActivity> clazz)       //这里传入你自定义的Activity class,自定义的activity必须继承PhotoPagerActivity
- * ...
- * ...
- * ...
- * .build();
+ *          ...
+ *          ...
+ *          ...
+ *          .build();
  * <p>
  * }
  * Created by Awen <Awentljs@gmail.com>
@@ -59,7 +59,7 @@ public class PhotoPagerConfig {
     public static final String EXTRA_USER_BUNDLE = "extra_user_bundle";
     public static final String EXTRA_PAGER_BEAN = "extra_pager_bean";
 
-    private PhotoPagerConfig(Activity activity, Builder builder) {
+    private PhotoPagerConfig(Activity activity, Builder<?> builder) {
         PhotoPagerBean photoPagerBean = builder.photoPagerBean;
         if (photoPagerBean == null) {
             throw new NullPointerException("Builder#photoPagerBean is null");

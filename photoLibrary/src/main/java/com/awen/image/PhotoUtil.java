@@ -340,10 +340,14 @@ public class PhotoUtil extends PhotoSetting {
      * @param context 必须为 FragmentActivity
      * @return {@link CameraBuilder}
      */
+    @NonNull
+    @CheckResult
     public static CameraBuilder camera(FragmentActivity context){
         return CameraBuilder.create(context);
     }
 
+    @NonNull
+    @CheckResult
     public static CameraBuilder camera(Fragment fragment){
         return CameraBuilder.create(fragment.getActivity());
     }

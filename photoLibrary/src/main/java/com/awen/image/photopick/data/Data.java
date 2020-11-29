@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import androidx.collection.LongSparseArray;
+
 import com.awen.image.R;
 import com.awen.image.photopick.bean.Photo;
 import com.awen.image.photopick.bean.PhotoDirectory;
@@ -56,11 +58,11 @@ public class Data {
             int height = data.getInt(data.getColumnIndexOrThrow(HEIGHT));
             long dateAdd = data.getLong(data.getColumnIndexOrThrow(DATE_ADDED));
             long dateModify = data.getLong(data.getColumnIndexOrThrow(DATE_MODIFIED));
-            Photo photo = new Photo();
 
             if (size <= 0) {
                 continue;
             }
+            Photo photo = new Photo();
             Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
             photo.setId(id);
             photo.setUri(uri.toString());
@@ -69,7 +71,7 @@ public class Data {
             photo.setMimeType(mimeType);
             photo.setWidth(width);
             photo.setHeight(height);
-            photo.setDateAdd(dateModify);
+            photo.setDateAdd(dateAdd);
             photo.setDateModified(dateModify);
 
             PhotoDirectory photoDirectory = new PhotoDirectory();
@@ -115,12 +117,10 @@ public class Data {
             long dateAdd = data.getLong(data.getColumnIndexOrThrow(DATE_ADDED));
             long dateModify = data.getLong(data.getColumnIndexOrThrow(DATE_MODIFIED));
             long duration = data.getLong(data.getColumnIndexOrThrow(DURATION));
-
-            Photo photo = new Photo();
-
             if (size <= 0) {
                 continue;
             }
+            Photo photo = new Photo();
             Uri uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
             photo.setId(id);
             photo.setUri(uri.toString());
@@ -179,13 +179,5 @@ public class Data {
                 return 0;
             }
         });
-    }
-
-    public static String getRealVideoPath(int id){
-        return MediaStore.Video.Media.EXTERNAL_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build().toString();
-    }
-
-    public static String getRealImagePath(int id){
-        return MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build().toString();
     }
 }

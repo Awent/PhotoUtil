@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,7 @@ import com.awen.image.photopick.bean.Photo;
 import com.awen.image.photopick.controller.CameraOptions;
 import com.awen.image.photopick.controller.PhotoPickConfig;
 import com.awen.image.photopick.loader.MediaType;
-import com.awen.image.photopick.re.AcResultUtil;
+import com.awen.image.photopick.re.AcResultProxy;
 import com.awen.image.photopick.re.OnActivityResultCallBack;
 import com.awen.image.photopick.util.AppPathUtil;
 import com.awen.image.photopick.util.PermissionUtil;
@@ -28,7 +27,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
-import static com.awen.image.PhotoSetting.DEBUG;
 
 /**
  * 负责拍照、视频录制、图片裁剪
@@ -52,7 +50,7 @@ public class CameraProxy {
     private OnCameraProxyCallBack callBack;
     private CameraOptions options;
     private boolean isOnlyUseCamera;//是否只是启动相机拍照或相机录视频
-    private AcResultUtil acResultUtil;
+    private AcResultProxy acResultProxy;
 
     public CameraProxy(@NonNull FragmentActivity context, @NonNull OnCameraProxyCallBack onCameraProxyCallBack) {
         this(context, onCameraProxyCallBack, null);
@@ -71,7 +69,7 @@ public class CameraProxy {
         }
         this.isOnlyUseCamera = isOnlyUseCamera;
         if (isOnlyUseCamera) {//只是启动系统相机
-            acResultUtil = new AcResultUtil(context,new OnActivityResultCallBack() {
+            acResultProxy = new AcResultProxy(context,new OnActivityResultCallBack() {
                 @Override
                 public void onActivityResultX(int requestCode, int resultCode, @Nullable Intent data) {
                     onActivityResult(requestCode, resultCode, data);
@@ -181,8 +179,8 @@ public class CameraProxy {
     }
 
     private void removeFragment(){
-        if(acResultUtil != null){
-            acResultUtil.removeResultFragment(context);
+        if(acResultProxy != null){
+            acResultProxy.removeResultFragment(context);
         }
     }
 
@@ -287,7 +285,7 @@ public class CameraProxy {
 
     private void startAc(Intent intent, int requestCode) {
         if (isOnlyUseCamera) {
-            acResultUtil.startAcResult(intent, requestCode);
+            acResultProxy.startAcResult(intent, requestCode);
         } else {
             context.startActivityForResult(intent, requestCode);
             if (requestCode == REQUEST_CODE_CLIPIC) {
